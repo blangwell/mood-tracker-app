@@ -13,8 +13,11 @@ passport.serializeUser((user, cb) => {
 // passport "deserializeuser" is going to take the id and look it up
 //in the database
 passport.deserializeUser((id, cb) => {
-    cb(null, id)
-    .catch(cb())
+
+    db.user.findByPk(id)
+    .then(user => {
+        cb(null,user)
+    }).catch(cb);
 })
 
 // its gonna look for email and password in the database
@@ -22,7 +25,7 @@ passport.use(new localStrategy({
     usernameField: 'email',
     passwordField: 'password'
 }, (email, password, cb) => {
-    db.user.find({
+    db.user.findOne({
         where: { email }
     })
     .then(user => {
@@ -32,5 +35,7 @@ passport.use(new localStrategy({
             cb(null, user)
         }
     })
-    .catch(cb())
+    .catch(cb)
 }))
+
+module.exports = passport;
