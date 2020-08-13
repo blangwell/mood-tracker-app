@@ -50,14 +50,17 @@ module.exports = (sequelize, DataTypes) => {
   user.addHook('beforeCreate', function(pendingUser) {
     // we use function() because we are constructing
     // remember fat arrows dont play nice with constructors
-    // hash the password 
+    // hash the password ; second arg is how many times we're hashing it
     let hash = bcrypt.hashSync(pendingUser.password, 12);
     
     // set the user password to the hash
     pendingUser.password = hash;
   })
-
+  // compare entered password for whats in the database
   user.prototype.validPassword = function(passwordTyped) {
+    //this.password is the actual password the use typed in
+    // compare sync takes this.password and encrypts it and compares it
+    // returns boolean
     let correctPassword = bcrypt.compareSync(passwordTyped, this.password);
     // return true or false based on if pwd is correct
     return correctPassword;
