@@ -27,15 +27,25 @@ app.use(session({
 
 // initialize passport (express middleware for authentication)
 // and run session as middleware
-app.use(passport.initialize())
-app.use(passport.session())
-// this goes under the passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// this goes after the passport middleware
 // flash temporary messages to the user (error messages)
 app.use(flash());
 
+// middleware to have our alerts partial accessible for every view
+app.use((req, res, next) => {
+  // before every route, we will attach our current user to res.local
+  res.local.alerts = req.flash();
+  res.local.currentUser = req.user;
+  // now that the middleware is run, go to the next thing
+  // similar to .then(). 
+  next();
+})
 
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('index', { alert: req.flash() });
 });
 
 app.get('/profile', (req, res) => {

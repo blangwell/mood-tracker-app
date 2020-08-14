@@ -58,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
   })
   // compare entered password for whats in the database
   user.prototype.validPassword = function(passwordTyped) {
-    //this.password is the actual password the use typed in
+    // this.password is the actual password the use typed in
     // compare sync takes this.password and encrypts it and compares it
     // returns boolean
     let correctPassword = bcrypt.compareSync(passwordTyped, this.password);

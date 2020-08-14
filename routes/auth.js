@@ -65,6 +65,7 @@ router.post('/login', (req, res) => {
 
 })
 
+// LOGOUT
 router.get('/logout', (req, res) => {
   req.logOut();
   // FLASH MESSAGE  
