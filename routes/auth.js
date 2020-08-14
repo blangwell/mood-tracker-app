@@ -41,13 +41,14 @@ router.post('/signup', (req, res) => {
       // email already exists
       console.log(' Email already exists ya doofus\n==========');
       // FLASH MESSAGE
-      req.flash('An account with that email already exists!')
+      // flash() needs two params, event and message
+      req.flash('error', 'An account with that email already exists!')
       res.redirect('/auth/signup')
     }
   })
   .catch(err => {
     console.log(`======!ERROR!======\n${err}`);
-    req.flash(`Something went wrong!\n${err}`);
+    req.flash('error', `Something went wrong!\n${err}`);
     res.redirect('/auth/signup');
   })
 })
@@ -69,7 +70,7 @@ router.post('/login', (req, res) => {
 router.get('/logout', (req, res) => {
   req.logOut();
   // FLASH MESSAGE  
-  req.flash('Logged out Successfully! See you soon!')
+  req.flash('success', 'Logged out Successfully! See you soon!')
   res.redirect('/');
 })
 

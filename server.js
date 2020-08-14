@@ -7,6 +7,9 @@ const SECRET_SESSION = process.env.SECRET_SESSION;
 const passport = require('./config/ppConfig');
 const flash = require('connect-flash');
 
+// require the authorization middleware (goes at top of script)
+const isLoggedIn = require('./middleware/isLoggedIn')
+
 app.set('view engine', 'ejs');
 
 //middleware extends to other parts of the program
@@ -37,18 +40,19 @@ app.use(flash());
 // middleware to have our alerts partial accessible for every view
 app.use((req, res, next) => {
   // before every route, we will attach our current user to res.local
-  res.local.alerts = req.flash();
-  res.local.currentUser = req.user;
+  res.locals.alerts = req.flash();
+  res.locals.currentUser = req.user;
   // now that the middleware is run, go to the next thing
   // similar to .then(). 
   next();
 })
 
 app.get('/', (req, res) => {
-  res.render('index', { alert: req.flash() });
+  console.log(res.locals.alerts);
+  res.render('index', { alert: res.locals.alerts });
 });
 
-app.get('/profile', (req, res) => {
+app.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile');
 });
 

@@ -3,6 +3,7 @@ var request = require('supertest');
 var app = require('../server');
 var db = require('../models');
 
+// this wipes the whole development database sans test cases
 before(function(done) {
   db.sequelize.sync({ force: true }).then(function() {
     done();
