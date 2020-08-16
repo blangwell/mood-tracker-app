@@ -57,7 +57,7 @@ app.get('/profile', isLoggedIn, (req, res) => {
 });
 
 app.use('/auth', require('./routes/auth'));
-
+app.use('/track', require('./routes/track'))
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
