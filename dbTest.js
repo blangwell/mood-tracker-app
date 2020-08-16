@@ -16,13 +16,13 @@ const sequelize = require('sequelize')
 //     console.log(m.get())
 // })
 db.user.findOne({
-    where: {id: 1}
+    where: {name: 'kimblor'}
 })
 .then(user => {
     db.mood.findOrCreate({
         where: {
             date: date,
-            elevated: 1,
+            elevated: 2,
             depressed: 1,
             irritable: 2,
             anxious: 3, 
