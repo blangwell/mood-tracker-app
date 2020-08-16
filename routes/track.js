@@ -4,20 +4,38 @@ const router = express.Router();
 const API_KEY = process.env.API_KEY;
 const plotly = require('plotly')({'username': 'blangwell', 'apiKey': API_KEY})
 const axios = require('axios')
+const chartHelper = require('../chartHelper')
 
 router.get('/', (req, res) => {
+    // let chart = chartHelper.newPlot();
+    // axios.get(chart)
+    // .then(response => {
+    //     console.log(response)
+    //     res.render('track/index', {url: `${response}.png`})
+    // })
+    // .catch(err => {
+    //     console.log(err)
+    // })
     let data = [
         {
-            x: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+            x: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'],
             y: ['0', '1', '2', '1', '0'],
             type: 'bar',
         }
     ]
     
     let layout = {
-        title: 'Heres my title',
+        title: 'Anxiety',
         xaxis: {
-            title: 'x axis',
+            title: 'Day',
+            titlefont: {
+                family: 'Helvetica, monospace',
+                size: 15,
+                color: '#000000'
+            }
+        },
+        yaxis: {
+            title: 'Severity from 0-3',
             titlefont: {
                 family: 'Helvetica, monospace',
                 size: 15,
@@ -43,28 +61,6 @@ router.get('/', (req, res) => {
 
         })
     })
-    // let data = [
-    //         {
-    //             x: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
-    //             y: ['0', '1', '2', '1', '0'],
-    //             marker: {
-    //                 severity: ['none', 'mild', 'moderate', 'severe']
-    //             },
-    //             type: 'bar',
-    //             title: 'anxiety'
-    //         }
-    //     ]
-    
-    // let layout = {
-    //     title: 'anxiety',
-    //     showlegend: false
-    //     };
-    
-    // plotly.plot(data, layout, (err, msg) => {
-    //     if (err) return console.log(err);
-    //     console.log(msg);
-    // });
-
 })
 
 router.get('/new', (req, res) => {
