@@ -3,21 +3,24 @@ const db = require('../models');
 const router = express.Router();
 const API_KEY = process.env.API_KEY;
 const plotly = require('plotly')({'username': 'blangwell', 'apiKey': API_KEY})
+const axios = require('axios')
 
 router.get('/', (req, res) => {
     let data = [
         {
-            x: ['test1', 'test2', 'test3'],
-            y: [20, 14, 23],
+            x: ['monday', 'tuesday', 'wednesday'],
+            y: [0, 1, 2, 3],
             type: 'bar'
         }
     ]
     
     let graphOptions = {filename: 'basic-bar', fileopt: 'overwrite'};
     let newPlot = plotly.plot(data, graphOptions, function (err, msg) {
-        console.log(msg.url);
+        let embedUrl = `${msg.url}.embed`;
+        console.log(`${msg.url}.embed`);
+        res.redirect(embedUrl)
     })
-    res.render('track/index', {plot: newPlot})
+
 })
 
 router.get('/new', (req, res) => {
