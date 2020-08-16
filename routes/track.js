@@ -8,19 +8,62 @@ const axios = require('axios')
 router.get('/', (req, res) => {
     let data = [
         {
-            x: ['monday', 'tuesday', 'wednesday'],
-            y: [0, 1, 2, 3],
-            type: 'bar'
+            x: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+            y: ['0', '1', '2', '1', '0'],
+            type: 'bar',
         }
     ]
     
-    let graphOptions = {filename: 'basic-bar', fileopt: 'overwrite'};
+    let layout = {
+        title: 'Heres my title',
+        xaxis: {
+            title: 'x axis',
+            titlefont: {
+                family: 'Helvetica, monospace',
+                size: 15,
+                color: '#000000'
+            }
+        }
+    }
+
+    let graphOptions = {
+        layout: layout,
+        filename: 'test', 
+        fileopt: 'overwrite',
+        
+    };
+
     let newPlot = plotly.plot(data, graphOptions, function (err, msg) {
         let embedUrl = `${msg.url}.embed`;
         console.log(`${msg.url}.embed`);
-        res.render('track/index', {url: msg.url})
-        r
+        axios.get(msg.url)
+        .then(response => {
+            console.log(response)
+            res.render('track/index', {url: `${response.config.url}.png`})
+
+        })
     })
+    // let data = [
+    //         {
+    //             x: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+    //             y: ['0', '1', '2', '1', '0'],
+    //             marker: {
+    //                 severity: ['none', 'mild', 'moderate', 'severe']
+    //             },
+    //             type: 'bar',
+    //             title: 'anxiety'
+    //         }
+    //     ]
+    
+    // let layout = {
+    //     title: 'anxiety',
+    //     showlegend: false
+    //     };
+    
+    // plotly.plot(data, layout, (err, msg) => {
+    //     if (err) return console.log(err);
+    //     console.log(msg);
+    // });
 
 })
 
