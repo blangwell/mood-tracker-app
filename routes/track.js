@@ -18,7 +18,8 @@ router.get('/', (req, res) => {
     let newPlot = plotly.plot(data, graphOptions, function (err, msg) {
         let embedUrl = `${msg.url}.embed`;
         console.log(`${msg.url}.embed`);
-        res.redirect(embedUrl)
+        res.render('track/index', {url: msg.url})
+        r
     })
 
 })
