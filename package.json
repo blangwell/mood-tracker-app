@@ -24,13 +24,11 @@
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.17.1",
     "fs": "0.0.1-security",
-    "jsdom": "^16.4.0",
     "moment": "^2.27.0",
     "morgan": "^1.9.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "pg": "^7.11.0",
-    "plotly": "^1.0.6",
     "sequelize": "^5.8.12"
   }
 }

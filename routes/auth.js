@@ -56,7 +56,7 @@ router.post('/signup', (req, res) => {
 // FLASH MESSAGE
 // when a user logs in, this is where we authenticate them
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
+  successRedirect: '/profile',
   failureRedirect: '/auth/login',
   successFlash: 'Welcome back!',
   failureFlash: 'Password or Email is Incorrect! Give it another shot.'
