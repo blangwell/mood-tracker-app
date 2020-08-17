@@ -12,3 +12,8 @@ h1 {
   max-width: 750px;
   max-height: auto;
 } */
+
+#myChart {
+  max-width: 400px;
+  max-height: auto;
+}

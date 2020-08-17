@@ -1,5 +1,27 @@
 <h1>DASHBOARD</h1>
 
 <h3>Week View</h3>
-<div class="chart">
-</div>
+<canvas id="myChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'My First dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 33, 66, 33, 99, 0, 33]
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+</script>
