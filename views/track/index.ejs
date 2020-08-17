@@ -1,4 +1,5 @@
-<p><%= dates %></p>
+<% let datesHere = dates %>
+
 <h1>DASHBOARD</h1>
 
 <h3>Week View</h3>
@@ -6,24 +7,26 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-var ctx = document.getElementById('myChart').getContext('2d');
+    //console.log(`HERE IS THE EJS DATES ARRAY ${datesArrayPass}`)
+    let clientDates = '<%- JSON.stringify(datesHere) %>';
+    console.log(clientDates)
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
 
-var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'line',
+        // The data for our dataset
+        data: {
+            labels: [0, 1],
+            datasets: [{
+                label: 'Anxiety',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [0, 33]
+            }]
+        },
 
-    // The data for our dataset
-    data: {
-        labels: [dateArray],
-        datasets: [{
-            label: 'Anxiety',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [0, 33, 66, 33, 99, 0, 33]
-        }]
-    },
-
-    // Configuration options go here
-    options: {}
-});
+        // Configuration options go here
+        options: {}
+    });
 </script>

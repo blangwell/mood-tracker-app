@@ -23,8 +23,8 @@ router.get('/', (req, res) => {
             // })
             // log the last 7 entries of db
             for (let i=7; i>0; i--) {
-                if (moods[i]) {
-                    console.log(`${moods[i].date}\n Depression level: ${moods[i].depressed}`);
+                if (moods[i] && dateArray.length<7) {
+                    // console.log(`${moods[i].date}\n Depression level: ${moods[i].depressed}`);
                     dateArray.push(moods[i].date)
                 } else { // if there is no mood data 
                     console.log(`no data available!`);
@@ -34,7 +34,8 @@ router.get('/', (req, res) => {
         .catch(err => {console.log(err)})
     })
     .catch(err => {console.log(err)})
-    console.log(dateArray)
+
+    // console.log(dateArray)
     res.render('track/index', {dates: dateArray})
 
 })
