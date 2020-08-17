@@ -16,16 +16,32 @@ router.get('/', (req, res) => {
     // .catch(err => {
     //     console.log(err)
     // })
-    let data = [
-        {
-            x: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'],
-            y: ['0', '1', '2', '1', '0'],
-            type: 'bar',
-        }
-    ]
+
+    // THIS GOES INTO A FOR LOOP
+
+    let trace1 = {
+        x: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        y: [0, 1, 3, 2, 0, 3, 2],
+        name: 'anxiety',
+        type: 'bar'
+    }
+    let trace2 = {
+        x: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        y: [2, 3, 1, 3, 0, 1, 0],
+        name: 'depression',
+        type: 'bar'
+    }
+    let trace3 = {
+        x: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        y: [1, 2, 1, 3, 3, 1, 2],
+        name: 'irritability',
+        type: 'bar'
+    }
+
+    let data = [trace1, trace2, trace3];
     
     let layout = {
-        title: 'Anxiety',
+        title: 'Week View',
         xaxis: {
             title: 'Day',
             titlefont: {
