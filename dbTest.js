@@ -21,12 +21,12 @@ const sequelize = require('sequelize')
 // .then(user => {
 //     db.mood.findOrCreate({
 //         where: {
-//             date: date,
-//             elevated: 1,
-//             depressed: 2,
-//             irritable: 0,
-//             anxious: 2, 
-//             sleep: 6
+//             date: '2020-8-22',
+//             elevated: 3,
+//             depressed: 3,
+//             irritable: 2,
+//             anxious: 3, 
+//             sleep: 5
 //         }
 //     })
 //     .then(([mood, created]) => {
@@ -66,20 +66,20 @@ const sequelize = require('sequelize')
 //     })
 // })
 
-const currentUser = db.user.findOne({
-    where: {id: 1}
-}).then(user => {
-    user.getMoods()
-    .then(moods => {
-        console.log(moods);
-        moods.forEach(m => {
-            console.log(`\nDATE: ${m.date}`)
-            console.log(`elevated mood level: ${m.elevated}`)
-            console.log(`depression level: ${m.depressed}`)
-            console.log(`irritability level: ${m.irritable}`)
-            console.log(`anxiety level: ${m.anxious}`)
-            console.log(`${m.sleep} hours of sleep`)
+// const currentUser = db.user.findOne({
+//     where: {id: 1}
+// }).then(user => {
+//     user.getMoods()
+//     .then(moods => {
+//         console.log(moods);
+//         moods.forEach(m => {
+//             console.log(`\nDATE: ${m.date}`)
+//             console.log(`elevated mood level: ${m.elevated}`)
+//             console.log(`depression level: ${m.depressed}`)
+//             console.log(`irritability level: ${m.irritable}`)
+//             console.log(`anxiety level: ${m.anxious}`)
+//             console.log(`${m.sleep} hours of sleep`)
 
-        })
-    })
-})
+//         })
+//     })
+// })
