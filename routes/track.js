@@ -19,26 +19,32 @@ router.get('/', (req, res) => {
 
     // THIS GOES INTO A FOR LOOP
 
-    let trace1 = {
+    let elevatedTrace = {
         x: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
         y: [0, 1, 3, 2, 0, 3, 2],
-        name: 'anxiety',
+        name: 'elevated mood',
         type: 'bar'
     }
-    let trace2 = {
+    let depressedTrace = {
         x: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
         y: [2, 3, 1, 3, 0, 1, 0],
         name: 'depression',
         type: 'bar'
     }
-    let trace3 = {
-        x: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        y: [1, 2, 1, 3, 3, 1, 2],
-        name: 'irritability',
-        type: 'bar'
-    }
+    // let irritableTrace = {
+    //     x: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    //     y: [1, 2, 1, 3, 3, 1, 2],
+    //     name: 'irritability',
+    //     type: 'bar'
+    // }
+    // let anxiousTrace = {
+    //     x: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    //     y: [1, 2, 1, 3, 3, 1, 2],
+    //     name: 'anxiety',
+    //     type: 'bar'
+    // }
 
-    let data = [trace1, trace2, trace3];
+    let data = [elevatedTrace, depressedTrace];
     
     let layout = {
         title: 'Week View',
@@ -68,8 +74,10 @@ router.get('/', (req, res) => {
     };
 
     let newPlot = plotly.plot(data, graphOptions, function (err, msg) {
-        let embedUrl = `${msg.url}.embed`;
-        console.log(`${msg.url}.embed`);
+        if (err) console.log(err)
+        console.log(msg)
+        // let embedUrl = `${msg.url}.embed`;
+        // console.log(`${msg.url}.embed`);
         axios.get(msg.url)
         .then(response => {
             console.log(response)
@@ -80,11 +88,9 @@ router.get('/', (req, res) => {
 })
 
 router.get('/new', (req, res) => {
+    
     res.render('track/new')
 })
-
-
-
 
 
 module.exports = router;
