@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       models.user.belongsToMany(models.mood, 
-        {through: 'usersMoods'})
+        {through: 'usersMoods', onDelete: 'CASCADE'})
     }
   };
   user.init({

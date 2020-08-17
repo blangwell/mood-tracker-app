@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       models.mood.belongsToMany(models.user, 
-        {through: 'usersMoods'})
+        {through: 'usersMoods', onDelete: 'CASCADE'})
     }
   };
   mood.init({

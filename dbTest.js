@@ -15,31 +15,41 @@ const sequelize = require('sequelize')
 // ).then(m => {
 //     console.log(m.get())
 // })
-// db.user.findOne({
-//     where: {id: 1}
-// })
-// .then(user => {
-//     db.mood.findOrCreate({
-//         where: {
-//             date: '2020-8-22',
-//             elevated: 3,
-//             depressed: 3,
-//             irritable: 2,
-//             anxious: 3, 
-//             sleep: 5
-//         }
-//     })
-//     .then(([mood, created]) => {
-//         console.log(mood, created)
-//         user.addMood(mood)
-//         .then(relationInfo => {
-//             console.log(mood, 'added to', user.name)
-//         })
-//         .catch(err => {console.log(`ERROR!!!! ${err}`)})
-//     })
-//     .catch(err => {console.log(`ERROR!!!! ${err}`)})
-// })
-// .catch(err => {console.log(`ERROR!!!! ${err}`)})
+
+
+db.user.findOne({
+    where: {id: 1}
+})
+.then(user => {
+    db.mood.findOrCreate({
+        where: {
+            date: '2020-8-22',
+            elevated: 3,
+            depressed: 3,
+            irritable: 2,
+            anxious: 3, 
+            sleep: 5
+        },
+        defaults: {
+            date: date,
+            elevated: 0,
+            depressed: 0,
+            irritable: 0,
+            anxious: 0,
+            sleep: 0
+        }
+    })
+    .then(([mood, created]) => {
+        console.log(mood, created)
+        user.addMood(mood)
+        .then(relationInfo => {
+            console.log(mood, 'added to', user.name)
+        })
+        .catch(err => {console.log(`ERROR!!!! ${err}`)})
+    })
+    .catch(err => {console.log(`ERROR!!!! ${err}`)})
+})
+.catch(err => {console.log(`ERROR!!!! ${err}`)})
 
 // db.user.create({
 //     name: 'barent',

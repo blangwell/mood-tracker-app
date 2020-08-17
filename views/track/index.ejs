@@ -1,3 +1,4 @@
+<p><%= dates %></p>
 <h1>DASHBOARD</h1>
 
 <h3>Week View</h3>
@@ -6,15 +7,16 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 var ctx = document.getElementById('myChart').getContext('2d');
+
 var chart = new Chart(ctx, {
     // The type of chart we want to create
     type: 'line',
 
     // The data for our dataset
     data: {
-        labels: ['Sunday', 'Monday', 'March', 'April', 'May', 'June', 'July'],
+        labels: [dateArray],
         datasets: [{
-            label: 'Week View',
+            label: 'Anxiety',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: [0, 33, 66, 33, 99, 0, 33]
