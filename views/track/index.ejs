@@ -1,15 +1,11 @@
-<% console.log(moods) %>
+<% console.log(`HERE ARE THE DATES I HAVE : ${dates}`) %>
 <% %>
 <p><%= `sample data: anxious: ${moods[4].dataValues.anxious}` %></p>
 <% let anxietyArray = []%>
 <% const anxietyData = () => { %>
     <% moods.forEach(m => { %>
         <% let anxiousVals = m.dataValues.anxious%>
-       <% if (anxiousVals) { %>
             <% anxietyArray.push(anxiousVals) %>
-       <% } else { %>
-            <% anxietyArray.push('0') %>
-       <% } %>
     <% }) %>
 <% }%>
 <% anxietyData() %>
@@ -27,9 +23,11 @@
     let clientAnxiety = '<%- JSON.stringify(anxietyArray) %>';
     // remove the brackets and quotes from dates string and split into array
     clientDates = clientDates.replace(/[\[\]"]+/g, '');
-    clientDates = clientDates.split(',').reverse();
+    clientDates = clientDates.split(',');
+    clientDates = clientDates.reverse();
 
-    clientAnxiety = clientAnxiety.split(',').reverse();
+    clientAnxiety = clientAnxiety.split(',')
+    // .reverse();
 
     
     console.log(clientDates);

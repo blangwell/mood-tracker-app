@@ -24,11 +24,11 @@ db.user.findOne({
     console.log
     db.mood.findOrCreate({
         where: {
-            date: '2020-8-20',
+            date: '2020-8-23',
             elevated: 2,
-            depressed: 3,
-            irritable: 2,
-            anxious: 0, 
+            depressed: 2,
+            irritable: 3,
+            anxious: 1, 
             sleep: 5
         }
     })

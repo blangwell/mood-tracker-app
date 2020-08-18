@@ -18,14 +18,21 @@ router.get('/', (req, res) => {
         user.getMoods()
         .then(moods => {
             // log the last 7 entries of db
-            for (let i=7; i>0; i--) {
-                if (moods[i] && dateArray.length<7) {
-                    // console.log(`${moods[i].date}\n Depression level: ${moods[i].depressed}`);
-                    dateArray.push(moods[i].date)
-                } else { // if there is no mood data 
-                    console.log(`no data available!`);
-                }
-            }
+            // for (let i=moods.length -1; i>moods.length-8; i--) {
+            //     console.log(`BACKEND DATES ${moods[i].date}`)
+            //     if (moods[i].date && dateArray.length<7) {
+            //         // console.log(`${moods[i].date}\n Depression level: ${moods[i].depressed}`);
+            //         dateArray.push(moods[i].date)
+            //         // console.log(moods)
+            //     } else { // if there is no mood data 
+            //         console.log(`no data available!`);
+            //         break
+            //     }
+            // }
+            moods.forEach(m => {
+                if(m.date) dateArray.push(m.date)
+            })
+            console.log(`BACKEND DATE ARRAY ${dateArray}`)
             res.render('track/index', {dates: dateArray, moods: moods})
         })
         .catch(err => {console.log(err)})
