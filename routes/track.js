@@ -15,8 +15,10 @@ router.get('/', (req, res) => {
         elevated: 0,
         depressed: 0,
         irritable: 0,
-        anxious: 0
+        anxious: 0,
+        sleep: 0
     }
+
     // list last seven days
     for (let i = 0; i<=7; i++) {
         let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
@@ -27,31 +29,27 @@ router.get('/', (req, res) => {
             where: {id: 1},
             include: [db.mood]
         })
-        .then(u => {
+        .then(user => {
             // loop through moods associated w user
             // if (mood.date) === dateArray[i] {foundMoods.push(mood)}
             // create found moods array DONE
             // loop thru foundMoods and dateArray
-            // nested for loop 
             dateArray.forEach(d => {
-                u.moods.forEach(m => {
+                user.moods.forEach(m => {
                     if (m.date == d) {
                         // THIS PUSHES THE SAME DATA OVER AND OVER
+                        console.log(`HERE IS MOOD : ${m}\n HERE IS DATE : ${d}`)
                         foundMoods.elevated = m.elevated;
                         foundMoods.depressed = m.depressed;
                         foundMoods.irritable = m.irritable;
                         foundMoods.anxious = m.anxious;
-                        //make this an object, day 1 day 2, etc
-                        // default valuees 0, null
-                        // if these day == null, dont render
+                        foundMoods.sleep = m.sleep;
                         moodObjectArray.push(foundMoods)
-                    } 
+                    } else {
+
+                    }
                 })
-                // then(m => {
-                    // })
-                })
-                console.log(moodObjectArray)
-                console.log(`FOUND MOODS: ${foundMoods.date} irritable: ${foundMoods.irritable}`)
+            })
                 res.render('track/index', {dates: dateArray, moods: foundMoods})
         })
 
@@ -86,10 +84,12 @@ router.get('/show', (req, res) => {
     //         date: req.body.date
     //     }
     // })
+    console.log(req.body);
     res.render('track/show')
-    // console.log(req.body);
 })
 
+// ADD A NEW USER TO THE DATABASE
+// HERE GOES THE LOGIC FOR UPDATING AS WELL
 router.post('/show', (req, res) => {
     db.user.findOne({
         where: {
@@ -106,7 +106,7 @@ router.post('/show', (req, res) => {
 
         })
     })
-    console.log(req.body);
+    // console.log(req.body);
     res.redirect('/track/show')
 })
 
