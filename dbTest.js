@@ -44,6 +44,17 @@ db.user.findOne({
 })
 .catch(err => {console.log(`ERROR!!!! SECOND CATCH ${err}`)})
 
+
+// for (let i=0; i<clientDates.length; i++){
+//     db.mood.findAll({
+//         where: {date: clientDates[i]}
+//     })
+//     .then({
+
+//     })
+// }
+
+
 // db.user.create({
 //     name: 'barent',
 //     email: 'cooldude@cool.co',

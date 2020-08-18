@@ -1,6 +1,12 @@
 <div class="dom-manip"></div>
 
-<form action="/show" method="POST" id="depressed">
+<form action="/track" method="POST" id="tracker-entry">
+    <label for="date"><h3>Date</h3></label><br />
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Date</span>
+      </div>
+      <input type="text" class="form-control" placeholder="<%= today %>" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
     <div id="elevated">
         <label for="elevated"><h3>Elevated Mood</h3></label><br />
         <div class="form-check form-check-inline">
