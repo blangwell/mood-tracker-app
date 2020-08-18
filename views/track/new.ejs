@@ -1,10 +1,12 @@
 
 <form action="/track/show" method="POST" id="tracker-entry">
-    <div class="input-group-prepend">
+    <!-- <div class="input-group-prepend">
         <span class="input-group-text" id="date-field">Date</span>
       </div>
       <input type="text" name="date" class="form-control" placeholder="<%= today %>" aria-label="date" aria-describedby="basic-addon1">
-    </div>
+    </div> -->
+    <label for="date"><h3>Date</h3></label>
+    <input type="date" name="date"></input>
     <div id="elevated">
         <label for="elevated"><h3>Elevated Mood</h3></label><br />
         <div class="form-check form-check-inline">
