@@ -1,23 +1,24 @@
 
 <% console.log(`HERE ARE THE DATES I HAVE : ${dates}`) %>
-<% %>
 <% let anxietyArray = []%>
-<% const anxietyData = () => { %>
-    <% moods.forEach(m => { %>
-        <% let anxiousVals = m.dataValues.anxious%>
-        <% if(anxiousVals !== null) { %>
-            <%  anxietyArray.push(anxiousVals) %>
-            <%  } else { %>
-                <%anxietyArray.push(0)}%>
-                <% }) %>
-                <% }%>
-                <% anxietyData() %>
-                <% console.log(`ANXIETY ARRAY : ${anxietyArray}`) %>
+<%// const anxietyData = () => { %>
+    <%// moods.forEach(m => { %>
+        <%// let anxiousVals = m.dataValues.anxious%>
+        <% //if(anxiousVals !== null) { %>
+            <% // anxietyArray.push(anxiousVals) %>
+            <% // } else { %>
+                <%//anxietyArray.push(0)}%>
+        <% //}) %>
+        <% //}%>
+    <% //anxietyData() %>
+    <% //console.log(`ANXIETY ARRAY : ${anxietyArray}`) %>
+
                 
-                <h1>DASHBOARD</h1>
-                
-                <h4>Your Week at a Glance</h4>
-                <canvas id="myChart"></canvas>
+<h1>DASHBOARD</h1>
+
+<h4>Your Week at a Glance</h4>
+
+<canvas id="myChart"></canvas>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>

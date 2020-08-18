@@ -4,13 +4,12 @@ const router = express.Router();
 const API_KEY = process.env.API_KEY;
 const axios = require('axios')
 const moment = require('moment') 
-const today = moment().format('MM-DD-YYYY')
+const today = moment().format('YYYY-MM-DD')
 const flatpickr = require('flatpickr')
-
-
 
 router.get('/', (req, res) => {
     let dateArray = [];
+    let moodObjectArray = [];
     foundMoods = {
         date: today,
         elevated: 0,
@@ -37,6 +36,7 @@ router.get('/', (req, res) => {
             dateArray.forEach(d => {
                 u.moods.forEach(m => {
                     if (m.date == d) {
+                        // THIS PUSHES THE SAME DATA OVER AND OVER
                         foundMoods.elevated = m.elevated;
                         foundMoods.depressed = m.depressed;
                         foundMoods.irritable = m.irritable;
@@ -44,12 +44,14 @@ router.get('/', (req, res) => {
                         //make this an object, day 1 day 2, etc
                         // default valuees 0, null
                         // if these day == null, dont render
-                    }
+                        moodObjectArray.push(foundMoods)
+                    } 
                 })
                 // then(m => {
                     // })
                 })
-                console.log(`FOUND MOODS: ${foundMoods}`)
+                console.log(moodObjectArray)
+                console.log(`FOUND MOODS: ${foundMoods.date} irritable: ${foundMoods.irritable}`)
                 res.render('track/index', {dates: dateArray, moods: foundMoods})
         })
 
@@ -99,7 +101,8 @@ router.post('/show', (req, res) => {
             elevated: req.body.elevated, 
             depressed: req.body.depressed,
             irritable: req.body.irritable,
-            anxious: req.body.anxious 
+            anxious: req.body.anxious,
+            sleep: req.body.sleep
 
         })
     })
