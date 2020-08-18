@@ -3,7 +3,6 @@ const db = require('../models');
 const router = express.Router();
 const API_KEY = process.env.API_KEY;
 const axios = require('axios')
-let dateArray = [];
 
 class ChartData {
     constructor(column) {
@@ -12,6 +11,7 @@ class ChartData {
 }
 
 router.get('/', (req, res) => {
+    let dateArray = [];
     const currentUser = db.user.findOne({
         where: {id: 1}
     }).then(user => {
@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
             //     }
             // }
             moods.forEach(m => {
-                if(m.date) dateArray.push(m.date)
+                dateArray.push(m.date)
             })
             console.log(`BACKEND DATE ARRAY ${dateArray}`)
             res.render('track/index', {dates: dateArray, moods: moods})

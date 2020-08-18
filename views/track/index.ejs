@@ -1,11 +1,13 @@
 <% console.log(`HERE ARE THE DATES I HAVE : ${dates}`) %>
 <% %>
-<p><%= `sample data: anxious: ${moods[4].dataValues.anxious}` %></p>
 <% let anxietyArray = []%>
 <% const anxietyData = () => { %>
     <% moods.forEach(m => { %>
         <% let anxiousVals = m.dataValues.anxious%>
-            <% anxietyArray.push(anxiousVals) %>
+            <% if(anxiousVals !== null) { %>
+              <%  anxietyArray.push(anxiousVals) %>
+          <%  } else { %>
+              <%anxietyArray.push(0)}%>
     <% }) %>
 <% }%>
 <% anxietyData() %>
@@ -13,7 +15,7 @@
 
 <h1>DASHBOARD</h1>
 
-<h3>Week View</h3>
+<h4>Your Week at a Glance</h4>
 <canvas id="myChart"></canvas>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -24,10 +26,8 @@
     // remove the brackets and quotes from dates string and split into array
     clientDates = clientDates.replace(/[\[\]"]+/g, '');
     clientDates = clientDates.split(',');
-    clientDates = clientDates.reverse();
 
-    clientAnxiety = clientAnxiety.split(',')
-    // .reverse();
+    clientAnxiety = clientAnxiety.split(',').reverse();
 
     
     console.log(clientDates);
@@ -41,8 +41,8 @@
             labels: clientDates,
             datasets: [{
                 label: 'Anxiety',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgb(4, 200, 214)',
+                borderColor: 'rgb(4, 95, 214)',
                 data: clientAnxiety
             }]
         },
