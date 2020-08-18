@@ -5,35 +5,71 @@ const API_KEY = process.env.API_KEY;
 const axios = require('axios')
 const moment = require('moment') 
 const today = moment().format('MM-DD-YYYY')
+const flatpickr = require('flatpickr')
 
-class ChartData {
-    constructor(column) {
-        this.column = column;
-    }
-}
+
 
 router.get('/', (req, res) => {
     let dateArray = [];
+    foundMoods = {
+        date: today,
+        elevated: 0,
+        depressed: 0,
+        irritable: 0,
+        anxious: 0
+    }
     // list last seven days
     for (let i = 0; i<=7; i++) {
-        let day = moment().subtract(i, 'day').format('MM-DD-YYYY')
+        let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
         dateArray.push(day)
     }
-    const currentUser = db.user.findOne({
-        where: {id: 1}
-    }).then(user => {
-        user.getMoods()
-        .then(moods => {
-            // just grab all the dates and push them to the array
-            // moods.forEach(m => {
-            //     dateArray.push(m.date)
-            // })
-            console.log(`BACKEND DATE ARRAY ${dateArray}`)
-            res.render('track/index', {dates: dateArray, moods: moods})
+        db.user.findOne({
+            // req.user.id (must be logged in ya dummy)
+            where: {id: 1},
+            include: [db.mood]
         })
-        .catch(err => {console.log(err)})
-    })
-    .catch(err => {console.log(err)})    
+        .then(u => {
+            // loop through moods associated w user
+            // if (mood.date) === dateArray[i] {foundMoods.push(mood)}
+            // create found moods array DONE
+            // loop thru foundMoods and dateArray
+            // nested for loop 
+            dateArray.forEach(d => {
+                u.moods.forEach(m => {
+                    if (m.date == d) {
+                        foundMoods.elevated = m.elevated;
+                        foundMoods.depressed = m.depressed;
+                        foundMoods.irritable = m.irritable;
+                        foundMoods.anxious = m.anxious;
+                        //make this an object, day 1 day 2, etc
+                        // default valuees 0, null
+                        // if these day == null, dont render
+                    }
+                })
+                // then(m => {
+                    // })
+                })
+                console.log(`FOUND MOODS: ${foundMoods}`)
+                res.render('track/index', {dates: dateArray, moods: foundMoods})
+        })
+
+    // find a user include the moods
+    // date array is just for checking
+    // found moods for those dates
+    // const currentUser = db.user.findOne({
+    //     where: {id: 1}
+    // }).then(user => {
+    //     user.getMoods()
+    //     .then(moods => {
+    //         // just grab all the dates and push them to the array
+    //         // moods.forEach(m => {
+    //         //     dateArray.push(m.date)
+    //         // })
+    //         console.log(`BACKEND DATE ARRAY ${dateArray}`)
+    //     })
+    //     .catch(err => {console.log(err)})
+    // })
+    // .catch(err => {console.log(err)})    
 })
 
 
@@ -42,14 +78,34 @@ router.get('/new', (req, res) => {
     res.render('track/new', {today})
 })
 
-router.post('/'), (req, res) => {
-    db.mood.findOrCreate({
-        where: {
-            date: req.body.date
-        }
-    })
-}
+router.get('/show', (req, res) => {
+    // db.mood.findOrCreate({
+    //     where: {
+    //         date: req.body.date
+    //     }
+    // })
+    res.render('track/show')
+    // console.log(req.body);
+})
 
+router.post('/show', (req, res) => {
+    db.user.findOne({
+        where: {
+            id: 1
+        }
+    }).then(u => {
+        u.createMood({
+            date: req.body.date,
+            elevated: req.body.elevated, 
+            depressed: req.body.depressed,
+            irritable: req.body.irritable,
+            anxious: req.body.anxious 
+
+        })
+    })
+    console.log(req.body);
+    res.redirect('/track/show')
+})
 
 module.exports = router;
 

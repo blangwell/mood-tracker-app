@@ -16,9 +16,9 @@ const sequelize = require('sequelize')
 //     console.log(m.get())
 // })
 
-
+// REQ.USER.ID
 db.user.findOne({
-    where: {id: 1}
+    where: {id: req.user.id}
 })
 .then(user => {
     console.log
