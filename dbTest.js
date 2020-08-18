@@ -21,22 +21,15 @@ db.user.findOne({
     where: {id: 1}
 })
 .then(user => {
+    console.log
     db.mood.findOrCreate({
         where: {
-            date: '2020-8-22',
-            elevated: 3,
+            date: '2020-8-20',
+            elevated: 2,
             depressed: 3,
             irritable: 2,
-            anxious: 3, 
+            anxious: 0, 
             sleep: 5
-        },
-        defaults: {
-            date: date,
-            elevated: 0,
-            depressed: 0,
-            irritable: 0,
-            anxious: 0,
-            sleep: 0
         }
     })
     .then(([mood, created]) => {
@@ -45,11 +38,11 @@ db.user.findOne({
         .then(relationInfo => {
             console.log(mood, 'added to', user.name)
         })
-        .catch(err => {console.log(`ERROR!!!! ${err}`)})
+        .catch(err => {console.log(`ERROR!!!! FIRST CATCH ${err}`)})
     })
-    .catch(err => {console.log(`ERROR!!!! ${err}`)})
+    .catch(err => {console.log(`ERROR!!!! SECOND CATCH ${err}`)})
 })
-.catch(err => {console.log(`ERROR!!!! ${err}`)})
+.catch(err => {console.log(`ERROR!!!! SECOND CATCH ${err}`)})
 
 // db.user.create({
 //     name: 'barent',

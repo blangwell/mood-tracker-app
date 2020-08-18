@@ -5,6 +5,12 @@ const API_KEY = process.env.API_KEY;
 const axios = require('axios')
 let dateArray = [];
 
+class ChartData {
+    constructor(column) {
+        this.column = column;
+    }
+}
+
 router.get('/', (req, res) => {
     const currentUser = db.user.findOne({
         where: {id: 1}

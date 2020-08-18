@@ -1,6 +1,19 @@
-<% let datesHere = dates %>
 <% console.log(moods) %>
-<% let re = new RegExp('[^0-9a-zA-Z]+') %>
+<% %>
+<p><%= `sample data: anxious: ${moods[4].dataValues.anxious}` %></p>
+<% let anxietyArray = []%>
+<% const anxietyData = () => { %>
+    <% moods.forEach(m => { %>
+        <% let anxiousVals = m.dataValues.anxious%>
+       <% if (anxiousVals) { %>
+            <% anxietyArray.push(anxiousVals) %>
+       <% } else { %>
+            <% anxietyArray.push('0') %>
+       <% } %>
+    <% }) %>
+<% }%>
+<% anxietyData() %>
+<% console.log(`ANXIETY ARRAY : ${anxietyArray}`) %>
 
 <h1>DASHBOARD</h1>
 
@@ -10,10 +23,16 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     //console.log(`HERE IS THE EJS DATES ARRAY ${datesArrayPass}`)
-    let clientDates = '<%- JSON.stringify(datesHere) %>';
-    clientDates = clientDates.replace(/[\[\]"]+/g, '')
-    clientDates = clientDates.split(',')
-    console.log(clientDates)
+    let clientDates = '<%- JSON.stringify(dates) %>';
+    let clientAnxiety = '<%- JSON.stringify(anxietyArray) %>';
+    // remove the brackets and quotes from dates string and split into array
+    clientDates = clientDates.replace(/[\[\]"]+/g, '');
+    clientDates = clientDates.split(',').reverse();
+
+    clientAnxiety = clientAnxiety.split(',').reverse();
+
+    
+    console.log(clientDates);
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
         // The type of chart we want to create
@@ -26,29 +45,29 @@
                 label: 'Anxiety',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
-                data: [0, 33, 44, 50, 10, 19, 11]
+                data: clientAnxiety
             }]
         },
 
         // Configuration options go here
         options: {}
     });
-    // var chart = new Chart(ctx, {
-    //     // The type of chart we want to create
-    //     type: 'line',
-
-    //     // The data for our dataset
-    //     data: {
-    //         labels: [1, 2],
-    //         datasets: [{
-    //             label: 'Anxiety',
-    //             backgroundColor: 'rgb(255, 99, 132)',
-    //             borderColor: 'rgb(255, 99, 132)',
-    //             data: [0, 33, 44, 50, 10, 19, 11]
-    //         }]
-    //     },
-
-    //     // Configuration options go here
-    //     options: {}
-    // });
+        // var chart = new Chart(ctx, {
+        //     // The type of chart we want to create
+        //     type: 'line',
+    
+        //     // The data for our dataset
+        //     data: {
+        //         labels: [1, 2],
+        //         datasets: [{
+        //             label: 'Anxiety',
+        //             backgroundColor: 'rgb(255, 99, 132)',
+        //             borderColor: 'rgb(255, 99, 132)',
+        //             data: [0, 33, 44, 50, 10, 19, 11]
+        //         }]
+        //     },
+    
+        //     // Configuration options go here
+        //     options: {}
+        // });
 </script>
