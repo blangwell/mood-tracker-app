@@ -41,7 +41,7 @@ router.get('/', (req, res) => {
                     } 
                 })
             })
-            console.log(moodObjectArray)
+            // console.log(moodObjectArray)
             res.render('track/index', {dates: dateArray, moods: moodObjectArray})
         })
 })
@@ -80,6 +80,16 @@ router.post('/show', (req, res) => {
 
 module.exports = router;
 
+
+// const getData = (metric, array) => {
+//     moods.forEach(m => {
+//         if (m.metric !== null) {
+//              array.push(m.metric) 
+//          } else { 
+//              array.push(0)
+//          } 
+//      }) 
+//  } 
 
 
 // THE GRAVEYARD

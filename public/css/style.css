@@ -13,7 +13,7 @@ h1 {
   max-height: auto;
 } */
 
-#myChart {
+.chart-view {
   max-width: 400px;
   max-height: auto;
 }
