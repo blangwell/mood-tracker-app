@@ -85,16 +85,16 @@ router.post('/show', (req, res) => {
                 
                             })
                         }
-
                     })
                 } 
             })
-            
         })
     })
     res.redirect('/track/show')
 })
 module.exports = router;
+
+// ==========THE GRAVEYARD========== 
 
 //router.post('/show', (req, res) => {
 // db.user.findOne({
@@ -148,7 +148,6 @@ module.exports = router;
 //  } 
 
 
-// THE GRAVEYARD
 
  // find a user include the moods
     // date array is just for checking
