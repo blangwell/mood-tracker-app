@@ -98,5 +98,44 @@ const sequelize = require('sequelize')
 //     })
 // })
 
+// db.user.findOne({
+//     where: {id: 1},
+//     include: [db.mood]
+// }).then(user => {
+    
+//     console.log(`U MOOD - ${user.moods}`)
+//     user.moods.findOrCreate({
+//         where: {date: req.body.date},
+//         defaults: {
+//             date: req.body.date,
+//             elevated: req.body.elevated, 
+//             depressed: req.body.depressed,
+//             irritable: req.body.irritable,
+//             anxious: req.body.anxious,
+//             sleep: req.body.sleep
 
-
+//         }
+//     })
+    
+// })
+db.user.findOne({
+    where: {id: 1},
+    include: [db.mood]
+}).then(user => {
+    
+    console.log(`U MOOD - ${user.moods}`)
+    user.getMoods().then(moods => {
+        moods.forEach(m => {
+            if (m.date == req.body.date) {
+                m.set({
+                    elevated: req.body.elevated, 
+                    depressed: req.body.depressed,
+                    irritable: req.body.irritable,
+                    anxious: req.body.anxious,
+                    sleep: req.body.sleep
+                })
+            }
+        })
+        console.log(moods)
+    })
+})

@@ -58,33 +58,89 @@ router.get('/show', (req, res) => {
 })
  
 router.post('/show', (req, res) => {
+    let updatePost = false;
     db.user.findOne({
-        where: {id: req.user.id},
+        where: {id: 1},
         include: [db.mood]
     }).then(user => {
-        
-        console.log(`U MOOD - ${user.moods}`)
+        user.getMoods().then(moods => {
+            moods.forEach(m => {
+                if (m.date == req.body.date) {
+                    updatePost = true;
+                    m.update({
+                        elevated: req.body.elevated, 
+                        depressed: req.body.depressed,
+                        irritable: req.body.irritable,
+                        anxious: req.body.anxious,
+                        sleep: req.body.sleep
+                    }).then(() => {
+                        if (!updatePost) {
+                            user.createMood({
+                                date: req.body.date,
+                                elevated: req.body.elevated, 
+                                depressed: req.body.depressed,
+                                irritable: req.body.irritable,
+                                anxious: req.body.anxious,
+                                sleep: req.body.sleep
+                
+                            })
+                        }
 
-        user.createMood({
-            date: req.body.date,
-            elevated: req.body.elevated, 
-            depressed: req.body.depressed,
-            irritable: req.body.irritable,
-            anxious: req.body.anxious,
-            sleep: req.body.sleep
-
+                    })
+                } 
+            })
+            
         })
     })
     res.redirect('/track/show')
 })
-
 module.exports = router;
 
+//router.post('/show', (req, res) => {
+// db.user.findOne({
+//     where: {id: req.user.id},
+//     include: [db.mood]
+// }).then(user => {
+    
+//     console.log(`U MOOD - ${user.moods}`)
+
+//     user.createMood({
+//         date: req.body.date,
+//         elevated: req.body.elevated, 
+//         depressed: req.body.depressed,
+//         irritable: req.body.irritable,
+//         anxious: req.body.anxious,
+//         sleep: req.body.sleep
+
+//     })
+// })
+// db.user.findOne({
+//     where: {id: 1},
+//     include: [db.mood]
+// }).then(user => {
+    
+//     console.log(`U MOOD - ${user.moods}`)
+//     user.getMoods().then(moods => {
+//         console.log(moods)
+//     })
+    // user.mood.findOrCreate({
+    //     where: {date: req.body.date},
+    //     defaults: {
+    //         date: req.body.date,
+    //         elevated: req.body.elevated, 
+    //         depressed: req.body.depressed,
+    //         irritable: req.body.irritable,
+    //         anxious: req.body.anxious,
+    //         sleep: req.body.sleep
+
+    //     }
+    // }) 
+// })
 
 // const getData = (metric, array) => {
-//     moods.forEach(m => {
-//         if (m.metric !== null) {
-//              array.push(m.metric) 
+    //     moods.forEach(m => {
+        //         if (m.metric !== null) {
+            //              array.push(m.metric) 
 //          } else { 
 //              array.push(0)
 //          } 
