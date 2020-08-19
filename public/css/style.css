@@ -17,3 +17,16 @@ h1 {
   max-width: 400px;
   max-height: auto;
 }
+main {
+  padding: 20px 50px;
+}
+
+.form-control {
+  max-width: 400px;
+}
+
+.auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
