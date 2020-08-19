@@ -44,6 +44,7 @@ router.get('/', (req, res) => {
             // console.log(moodObjectArray)
             res.render('track/index', {dates: dateArray, moods: moodObjectArray})
         })
+        .catch(err => {console.log(err)})
 })
 
 
@@ -60,7 +61,7 @@ router.get('/show', (req, res) => {
 router.post('/show', (req, res) => {
     let updatePost = false;
     db.user.findOne({
-        where: {id: 1},
+        where: {id: req.user.id},
         include: [db.mood]
     }).then(user => {
         user.getMoods().then(moods => {
@@ -86,9 +87,11 @@ router.post('/show', (req, res) => {
                             })
                         }
                     })
+                    .catch(err => {console.log(err)})
                 } 
             })
         })
+        .catch(err => {console.log(err)})
     })
     res.redirect('/track/show')
 })

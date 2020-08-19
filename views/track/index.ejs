@@ -26,11 +26,11 @@
 <h1>DASHBOARD</h1>
 
 <h4>Your Week at a Glance</h4>
-<canvas class="chart-view" id="elevated-chart"></canvas>
-<canvas class="chart-view" id="depressed-chart"></canvas>
-<canvas class="chart-view" id="irritable-chart"></canvas>
-<canvas class="chart-view" id="anxious-chart"></canvas>
-<canvas class="chart-view" id="sleep-chart"></canvas>
+<canvas class="chart-view" id="elevated-chart"></canvas><br />
+<canvas class="chart-view" id="depressed-chart"></canvas><br />
+<canvas class="chart-view" id="irritable-chart"></canvas><br />
+<canvas class="chart-view" id="anxious-chart"></canvas><br />
+<canvas class="chart-view" id="sleep-chart"></canvas><br />
 
 </main>
 
@@ -74,7 +74,32 @@
         var ctx = document.getElementById(elemId).getContext('2d')
         var chart = new Chart(ctx, {
             type: 'line',
+            data: {
+                labels: clientDates,
+                datasets: [{
+                    label: label,
+                    backgroundColor: backgroundRbg,
+                    borderColor: borderRbg,
+                    data: data,
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            max: 3,
+                            min: 0,
+                        }
+                    }]
+                }
+            }
+        })
+    }
 
+    const buildSleepChart = (elemId, data, label, backgroundRbg, borderRbg) => {
+        var ctx = document.getElementById(elemId).getContext('2d')
+        var chart = new Chart(ctx, {
+            type: 'line',
             data: {
                 labels: clientDates,
                 datasets: [{
@@ -84,7 +109,16 @@
                     data: data
                 }]
             },
-            options: {}
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            max: 12,
+                            min: 0,
+                        }
+                    }]
+                }
+            }
         })
     }
     
@@ -92,7 +126,7 @@
     buildChart('depressed-chart', clientDepressed, 'Depression', 'rgb(4, 200, 214)', 'rgb(4, 95, 214)' )
     buildChart('irritable-chart', clientIrritable, 'Irritability', 'rgb(4, 200, 214)', 'rgb(4, 95, 214)' )
     buildChart('anxious-chart', clientAnxious, 'Anxiety', 'rgb(4, 200, 214)', 'rgb(4, 95, 214)' )
-    buildChart('sleep-chart', clientSleep, 'Sleep', 'rgb(4, 200, 214)', 'rgb(4, 95, 214)' )
+    buildSleepChart('sleep-chart', clientSleep, 'Sleep', 'rgb(4, 200, 214)', 'rgb(4, 95, 214)' )
     
         // var chart = new Chart(ctx, {
         //     // The type of chart we want to create

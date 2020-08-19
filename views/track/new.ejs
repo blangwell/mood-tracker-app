@@ -1,14 +1,12 @@
 
 <form action="/track/show" method="POST" id="tracker-entry">
-    <!-- <div class="input-group-prepend">
-        <span class="input-group-text" id="date-field">Date</span>
-      </div>
-      <input type="text" name="date" class="form-control" placeholder="<%= today %>" aria-label="date" aria-describedby="basic-addon1">
-    </div> -->
-    <label for="date"><h3>Date</h3></label><br />
+
+    <label for="date"><h4>Date</h4></label><br />
     <input type="date" name="date" value="<%= today %>"></input>
+    <br /><br />
+    
     <div id="elevated">
-        <label for="elevated"><h3>Elevated Mood</h3></label><br />
+        <label for="elevated"><h4>Elevated Mood</h4></label><br />
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="checkbox" name="elevated" id="inlineRadio1" value="0">
             <label class="form-check-label" for="inlineRadio1">None</label>
@@ -28,7 +26,7 @@
     </div><br />
 
     <div id="depressed">
-        <label for="depressed"><h3>Depressed</h3></label><br />
+        <label for="depressed"><h4>Depressed</h4></label><br />
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="checkbox" name="depressed" id="inlineRadio1" value="0">
             <label class="form-check-label" for="inlineRadio1">None</label>
@@ -48,7 +46,7 @@
     </div><br />
 
     <div id="irritable">
-        <label for="irritable"><h3>Irritable</h3></label><br />
+        <label for="irritable"><h4>Irritable</h4></label><br />
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="checkbox" name="irritable" id="inlineRadio1" value="0">
             <label class="form-check-label" for="inlineRadio1">None</label>
@@ -68,7 +66,7 @@
     </div><br />
     
     <div id="anxious">
-        <label for="anxious"><h3>Anxious</h3></label><br />
+        <label for="anxious"><h4>Anxious</h4></label><br />
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="checkbox" name="anxious" id="inlineRadio1" value="0">
             <label class="form-check-label" for="inlineRadio1">None</label>
@@ -85,14 +83,8 @@
             <input class="form-check-input" type="checkbox" name="anxious" id="inlineRadio3" value="3" >
             <label class="form-check-label" for="inlineRadio3">Severe</label>
         </div>
-    </div>
-    <!-- <div id="sleep">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="date-field">Sleep</span>
-          </div>
-          <input type="text" name="sleep" class="form-control" aria-label="sleep" aria-describedby="basic-addon1">
-        </div>
-    </div> -->
+    </div><br />
+
     <label for="number">Sleep</label>
     <input type="number" step="0.5" name="sleep" value="0"></input>
     <input type="submit" class="btn btn-primary"></input>
