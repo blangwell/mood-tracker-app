@@ -6,17 +6,16 @@ const today = moment().format('YYYY-MM-DD')
 
 router.get('/', (req, res) => {
     let dateArray = [];
-    // storage object
     let moodObjectArray = [];
 
-    // list last seven days
+    // get last seven days
     for (let i = 0; i<=7; i++) {
         let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
         dateArray.push(day)
     }
         db.user.findOne({
             // TODO change to req.user.id (must be logged in ya dummy)
-            where: {id: 1},
+            where: {id: req.user.id},
             include: [db.mood]
         })
         .then(user => {
@@ -43,7 +42,7 @@ router.get('/', (req, res) => {
                 })
             })
             console.log(moodObjectArray)
-            res.render('track/index', {dates: dateArray, moods: foundMoods})
+            res.render('track/index', {dates: dateArray, moods: moodObjectArray})
         })
 })
 
@@ -54,15 +53,31 @@ router.get('/new', (req, res) => {
 })
 
 router.get('/show', (req, res) => {
-    // db.mood.findOrCreate({
-    //     where: {
-    //         date: req.body.date
-    //     }
-    // })
     console.log(req.body);
     res.render('track/show')
 })
  
+router.post('/show', (req, res) => {
+    db.user.findOne({
+        where: {id: req.user.id},
+        include: [db.mood]
+    }).then(user => {
+        
+        console.log(`U MOOD - ${user.moods}`)
+
+        user.createMood({
+            date: req.body.date,
+            elevated: req.body.elevated, 
+            depressed: req.body.depressed,
+            irritable: req.body.irritable,
+            anxious: req.body.anxious,
+            sleep: req.body.sleep
+
+        })
+    })
+    res.redirect('/track/show')
+})
+
 module.exports = router;
 
 
@@ -90,27 +105,6 @@ module.exports = router;
 
 // ADD A NEW USER TO THE DATABASE
 // HERE GOES THE LOGIC FOR UPDATING AS WELL
-// router.post('/show', (req, res) => {
-//     db.user.findOne({
-//         where: {id: 1},
-//         include: [db.mood]
-//     }).then(user => {
-        
-//         console.log(`U MOOD - ${u.moods}`)
-
-//         user.createMood({
-//             date: req.body.date,
-//             elevated: req.body.elevated, 
-//             depressed: req.body.depressed,
-//             irritable: req.body.irritable,
-//             anxious: req.body.anxious,
-//             sleep: req.body.sleep
-
-//         })
-//     })
-//     // console.log(req.body);
-//     res.redirect('/track/show')
-// })
 
 // {
 //     date: req.body.date,
