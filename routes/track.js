@@ -1,11 +1,8 @@
 const express = require('express');
 const db = require('../models');
 const router = express.Router();
-const API_KEY = process.env.API_KEY;
-const axios = require('axios')
 const moment = require('moment') 
 const today = moment().format('YYYY-MM-DD')
-const flatpickr = require('flatpickr')
 
 router.get('/', (req, res) => {
     let dateArray = [];
@@ -90,21 +87,65 @@ router.get('/show', (req, res) => {
 
 // ADD A NEW USER TO THE DATABASE
 // HERE GOES THE LOGIC FOR UPDATING AS WELL
+// router.post('/show', (req, res) => {
+//     db.user.findOne({
+//         where: {id: 1},
+//         include: [db.mood]
+//     }).then(user => {
+        
+//         console.log(`U MOOD - ${u.moods}`)
+
+//         user.createMood({
+//             date: req.body.date,
+//             elevated: req.body.elevated, 
+//             depressed: req.body.depressed,
+//             irritable: req.body.irritable,
+//             anxious: req.body.anxious,
+//             sleep: req.body.sleep
+
+//         })
+//     })
+//     // console.log(req.body);
+//     res.redirect('/track/show')
+// })
+
+
+
 router.post('/show', (req, res) => {
     db.user.findOne({
-        where: {
-            id: 1
-        }
-    }).then(u => {
-        u.createMood({
-            date: req.body.date,
-            elevated: req.body.elevated, 
-            depressed: req.body.depressed,
-            irritable: req.body.irritable,
-            anxious: req.body.anxious,
-            sleep: req.body.sleep
+        where: {id: 1},
+        include: [db.mood]
+    }).then(user => {
+        user.findOrCreate({
+            where: {
+                date: req.body.date
+            }
+        }).then(([mood, created]) => {
+            if (!created) {
+                mood.update({
+                    values: {
+                        date: req.body.date,
+                        elevated: req.body.elevated, 
+                        depressed: req.body.depressed,
+                        irritable: req.body.irritable,
+                        anxious: req.body.anxious,
+                        sleep: req.body.sleep
 
+                    }
+                })
+            } else {
+                mood.update({
+                    values: {
+                        elevated: req.body.elevated, 
+                        depressed: req.body.depressed,
+                        irritable: req.body.irritable,
+                        anxious: req.body.anxious,
+                        sleep: req.body.sleep
+                    }
+                })
+            }
         })
+
     })
     // console.log(req.body);
     res.redirect('/track/show')
@@ -112,6 +153,15 @@ router.post('/show', (req, res) => {
 
 module.exports = router;
 
+// {
+//     date: req.body.date,
+//     elevated: req.body.elevated, 
+//     depressed: req.body.depressed,
+//     irritable: req.body.irritable,
+//     anxious: req.body.anxious,
+//     sleep: req.body.sleep
+
+// }
 
 // Create an object 
 // let moodData = {

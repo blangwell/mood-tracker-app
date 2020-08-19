@@ -62,9 +62,9 @@ router.post('/login', passport.authenticate('local', {
   failureFlash: 'Password or Email is Incorrect! Give it another shot.'
 }));
 
-router.post('/login', (req, res) => {
+// router.post('/login', (req, res) => {
 
-})
+// })
 
 // LOGOUT
 router.get('/logout', (req, res) => {

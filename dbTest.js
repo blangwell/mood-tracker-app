@@ -17,32 +17,32 @@ const sequelize = require('sequelize')
 // })
 
 // REQ.USER.ID
-db.user.findOne({
-    where: {id: req.user.id}
-})
-.then(user => {
-    console.log
-    db.mood.findOrCreate({
-        where: {
-            date: '2020-8-23',
-            elevated: 2,
-            depressed: 2,
-            irritable: 3,
-            anxious: 1, 
-            sleep: 5
-        }
-    })
-    .then(([mood, created]) => {
-        console.log(mood, created)
-        user.addMood(mood)
-        .then(relationInfo => {
-            console.log(mood, 'added to', user.name)
-        })
-        .catch(err => {console.log(`ERROR!!!! FIRST CATCH ${err}`)})
-    })
-    .catch(err => {console.log(`ERROR!!!! SECOND CATCH ${err}`)})
-})
-.catch(err => {console.log(`ERROR!!!! SECOND CATCH ${err}`)})
+// db.user.findOne({
+//     where: {id: req.user.id}
+// })
+// .then(user => {
+//     console.log
+//     db.mood.findOrCreate({
+//         where: {
+//             date: '2020-8-23',
+//             elevated: 2,
+//             depressed: 2,
+//             irritable: 3,
+//             anxious: 1, 
+//             sleep: 5
+//         }
+//     })
+//     .then(([mood, created]) => {
+//         console.log(mood, created)
+//         user.addMood(mood)
+//         .then(relationInfo => {
+//             console.log(mood, 'added to', user.name)
+//         })
+//         .catch(err => {console.log(`ERROR!!!! FIRST CATCH ${err}`)})
+//     })
+//     .catch(err => {console.log(`ERROR!!!! SECOND CATCH ${err}`)})
+// })
+// .catch(err => {console.log(`ERROR!!!! SECOND CATCH ${err}`)})
 
 
 // for (let i=0; i<clientDates.length; i++){
@@ -97,3 +97,6 @@ db.user.findOne({
 //         })
 //     })
 // })
+
+
+
