@@ -118,24 +118,74 @@ const sequelize = require('sequelize')
 //     })
     
 // })
-db.user.findOne({
-    where: {id: 1},
-    include: [db.mood]
-}).then(user => {
+
+
+// db.user.findOne({
+//     where: {id: 1},
+//     include: [db.mood]
+// }).then(user => {
     
-    console.log(`U MOOD - ${user.moods}`)
-    user.getMoods().then(moods => {
-        moods.forEach(m => {
-            if (m.date == req.body.date) {
-                m.set({
-                    elevated: req.body.elevated, 
-                    depressed: req.body.depressed,
-                    irritable: req.body.irritable,
-                    anxious: req.body.anxious,
-                    sleep: req.body.sleep
-                })
-            }
+//     console.log(`U MOOD - ${user.moods}`)
+//     user.getMoods().then(moods => {
+//         moods.forEach(m => {
+//             if (m.date == req.body.date) {
+//                 m.set({
+//                     elevated: req.body.elevated, 
+//                     depressed: req.body.depressed,
+//                     irritable: req.body.irritable,
+//                     anxious: req.body.anxious,
+//                     sleep: req.body.sleep
+//                 })
+//             }
+//         })
+//         console.log(moods)
+//     })
+// })
+
+    let dateArray = [];
+    let moodObjectArray = [];
+
+    // get last seven days
+    for (let i = 0; i<=7; i++) {
+        let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
+        dateArray.push(day)
+    }
+        db.user.findOne({
+            // TODO change to req.user.id (must be logged in ya dummy)
+            where: {id: 3},
+            include: [db.mood]
         })
-        console.log(moods)
-    })
-})
+        .then(user => {
+            // loop through moods associated w user
+            // if (mood.date) === dateArray[i] {foundMoods.push(mood)}
+            // loop thru foundMoods and dateArray
+            user.moods.forEach(m => {
+                // M IS ITERATING SUCCESSFULLY
+                // console.log(m)
+                    foundMoods = {date: {
+                        date: null,
+                        elevated: null,
+                        depressed: null,
+                        irritable: null,
+                        anxious: null,
+                        sleep: null
+                    }}
+                dateArray.forEach(d => { // PROBLEM LOGIC
+                    // moodObjectArray.indexOf(m) == -1
+                    // !m in moodObjectArray
+                    if (d == m.date) {
+                        // make key/value d : {foundMoods.date....} ?
+                        foundMoods.date.date = d;
+                        foundMoods.date.elevated = m.elevated;
+                        foundMoods.date.depressed = m.depressed;
+                        foundMoods.date.irritable = m.irritable;
+                        foundMoods.date.anxious = m.anxious;
+                        foundMoods.date.sleep = m.sleep;
+                        moodObjectArray.push(foundMoods)
+                    } 
+                })
+            })
+            console.log(moodObjectArray)
+        })
+        .catch(err => {console.log(err)})
+

@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
                     // moodObjectArray.indexOf(m) == -1
                     // !m in moodObjectArray
                     if (d == m.date) {
-                        // THIS PUSHES THE SAME DATA OVER AND OVER
+                        // make key/value d : {foundMoods.date....} ?
                         foundMoods.date = d;
                         foundMoods.elevated = m.elevated;
                         foundMoods.depressed = m.depressed;
@@ -59,41 +59,67 @@ router.get('/show', (req, res) => {
 })
  
 router.post('/show', (req, res) => {
-    let updatePost = false;
     db.user.findOne({
         where: {id: req.user.id},
         include: [db.mood]
     }).then(user => {
-        user.getMoods().then(moods => {
-            moods.forEach(m => {
-                if (m.date == req.body.date) {
-                    updatePost = true;
-                    m.update({
+        // user.getMoods().then(moods => {
+        //     moods.forEach(m => {
+                // if (m.date == req.body.date) {
+                //     m.update({
+                //         elevated: req.body.elevated, 
+                //         depressed: req.body.depressed,
+                //         irritable: req.body.irritable,
+                //         anxious: req.body.anxious,
+                //         sleep: req.body.sleep
+                //     })
+                    
+                // } else  {
+                    user.createMood({
+                        date: req.body.date,
                         elevated: req.body.elevated, 
                         depressed: req.body.depressed,
                         irritable: req.body.irritable,
                         anxious: req.body.anxious,
                         sleep: req.body.sleep
-                    }).then(() => {
-                        if (!updatePost) {
-                            user.createMood({
-                                date: req.body.date,
-                                elevated: req.body.elevated, 
-                                depressed: req.body.depressed,
-                                irritable: req.body.irritable,
-                                anxious: req.body.anxious,
-                                sleep: req.body.sleep
-                
-                            })
-                        }
                     })
-                    .catch(err => {console.log(err)})
-                } 
-            })
-        })
+                // } 
+            // })
+        // })
+        .catch(err => {console.log(err)})
+
+        //     moods.forEach(m => {
+        //         if (m.date == req.body.date) {
+        //             // updatePost = true;
+        //             m.update({
+        //                 elevated: req.body.elevated, 
+        //                 depressed: req.body.depressed,
+        //                 irritable: req.body.irritable,
+        //                 anxious: req.body.anxious,
+        //                 sleep: req.body.sleep
+        //             }).then(() => {
+        //                 if (!updatePost) {
+        //                     user.createMood({
+        //                         date: req.body.date,
+        //                         elevated: req.body.elevated, 
+        //                         depressed: req.body.depressed,
+        //                         irritable: req.body.irritable,
+        //                         anxious: req.body.anxious,
+        //                         sleep: req.body.sleep
+                
+        //                     })
+        //                 }
+        //             })
+        //             .catch(err => {console.log(err)})
+        //         } 
+        //     })
+        // })
         .catch(err => {console.log(err)})
     })
-    res.redirect('/track/show')
+    .then(()=> {
+        res.redirect('/track/')
+
+    })
 })
 module.exports = router;
 
