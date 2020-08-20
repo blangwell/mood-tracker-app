@@ -56,6 +56,10 @@ app.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile', {user: req.user});
 });
 
+app.get('/edit', (req, res) => {
+  res.render('edit', {user: req.user});
+})
+
 app.use('/auth', require('./routes/auth'));
 app.use('/track', require('./routes/track'))
 app.use('/help', require('./routes/help'))

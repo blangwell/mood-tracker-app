@@ -41,6 +41,7 @@ router.get('/', (req, res) => {
                     } 
                 })
             })
+            // moodObjectArray = moodObjectArray.sort((a,b) => {return b-a});
             // console.log(moodObjectArray)
             res.render('track/index', {dates: dateArray, moods: moodObjectArray})
         })
@@ -63,18 +64,18 @@ router.post('/show', (req, res) => {
         where: {id: req.user.id},
         include: [db.mood]
     }).then(user => {
-        // user.getMoods().then(moods => {
-        //     moods.forEach(m => {
-                // if (m.date == req.body.date) {
-                //     m.update({
-                //         elevated: req.body.elevated, 
-                //         depressed: req.body.depressed,
-                //         irritable: req.body.irritable,
-                //         anxious: req.body.anxious,
-                //         sleep: req.body.sleep
-                //     })
+        user.getMoods().then(moods => {
+            moods.forEach(m => {
+                if (m.date == req.body.date) {
+                    m.update({
+                        elevated: req.body.elevated, 
+                        depressed: req.body.depressed,
+                        irritable: req.body.irritable,
+                        anxious: req.body.anxious,
+                        sleep: req.body.sleep
+                    })
                     
-                // } else  {
+                } else  {
                     user.createMood({
                         date: req.body.date,
                         elevated: req.body.elevated, 
@@ -83,9 +84,9 @@ router.post('/show', (req, res) => {
                         anxious: req.body.anxious,
                         sleep: req.body.sleep
                     })
-                // } 
-            // })
-        // })
+                } 
+            })
+        })
         .catch(err => {console.log(err)})
 
         //     moods.forEach(m => {

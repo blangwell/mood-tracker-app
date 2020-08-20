@@ -142,50 +142,114 @@ const sequelize = require('sequelize')
 //     })
 // })
 
-    let dateArray = [];
-    let moodObjectArray = [];
+    // let dateArray = [];
+    // let moodObjectArray = [];
 
-    // get last seven days
-    for (let i = 0; i<=7; i++) {
-        let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
-        dateArray.push(day)
-    }
-        db.user.findOne({
-            // TODO change to req.user.id (must be logged in ya dummy)
-            where: {id: 3},
-            include: [db.mood]
-        })
-        .then(user => {
-            // loop through moods associated w user
-            // if (mood.date) === dateArray[i] {foundMoods.push(mood)}
-            // loop thru foundMoods and dateArray
-            user.moods.forEach(m => {
-                // M IS ITERATING SUCCESSFULLY
-                // console.log(m)
-                    foundMoods = {date: {
-                        date: null,
-                        elevated: null,
-                        depressed: null,
-                        irritable: null,
-                        anxious: null,
-                        sleep: null
-                    }}
-                dateArray.forEach(d => { // PROBLEM LOGIC
-                    // moodObjectArray.indexOf(m) == -1
-                    // !m in moodObjectArray
-                    if (d == m.date) {
-                        // make key/value d : {foundMoods.date....} ?
-                        foundMoods.date.date = d;
-                        foundMoods.date.elevated = m.elevated;
-                        foundMoods.date.depressed = m.depressed;
-                        foundMoods.date.irritable = m.irritable;
-                        foundMoods.date.anxious = m.anxious;
-                        foundMoods.date.sleep = m.sleep;
-                        moodObjectArray.push(foundMoods)
-                    } 
-                })
-            })
-            console.log(moodObjectArray)
-        })
-        .catch(err => {console.log(err)})
+    // // get last seven days
+    // for (let i = 0; i<=7; i++) {
+    //     let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
+    //     dateArray.push(day)
+    // }
+    //     db.user.findOne({
+    //         // TODO change to req.user.id (must be logged in ya dummy)
+    //         where: {id: 3},
+    //         include: [db.mood]
+    //     })
+    //     .then(user => {
+    //         // loop through moods associated w user
+    //         // if (mood.date) === dateArray[i] {foundMoods.push(mood)}
+    //         // loop thru foundMoods and dateArray
+    //         user.moods.forEach(m => {
+    //             // M IS ITERATING SUCCESSFULLY
+    //             // console.log(m)
+    //             // foundMoods = {}
+    //             dateArray.forEach(d => { // PROBLEM LOGIC
+    //                     foundMoods = {[d]: {
+    //                         date: null,
+    //                         elevated: null,
+    //                         depressed: null,
+    //                         irritable: null,
+    //                         anxious: null,
+    //                         sleep: null
+    //                     }};
+    //                     console.log(d)
+    //                 // moodObjectArray.indexOf(m) == -1
+    //                 // !m in moodObjectArray
+    //                 if (d == m.date) {
+    //                     // make key/value d : {foundMoods.date....} ?
+    //                     foundMoods[d] = d;
+    //                     foundMoods[d].date = d;
+    //                     foundMoods[d].elevated = m.elevated;
+    //                     foundMoods[d].depressed = m.depressed;
+    //                     foundMoods[d].irritable = m.irritable;
+    //                     foundMoods[d].anxious = m.anxious;
+    //                     foundMoods[d].sleep = m.sleep;
+    //                     moodObjectArray.push(foundMoods)
+    //                 } 
+    //             })
+    //         })
+    //         console.log(moodObjectArray)
+    //     })
+    //     .catch(err => {console.log(err)})
 
+
+    // let dateArray = [];
+    // let moodObjectArray = [];
+
+    // // get last seven days
+    // for (let i = 0; i<=7; i++) {
+    //     let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
+    //     dateArray.push(day)
+    // }
+    //     db.user.findOne({
+    //         // TODO change to req.user.id (must be logged in ya dummy)
+    //         where: {id: 3},
+    //         include: [db.mood]
+    //     })
+    //     .then(user => {
+    //         // loop through moods associated w user
+    //         // if (mood.date) === dateArray[i] {foundMoods.push(mood)}
+    //         // loop thru foundMoods and dateArray
+    //         user.moods.forEach(m => {
+    //             // M IS ITERATING SUCCESSFULLY
+    //             foundMoods = {}
+    //             // console.log(m)
+    //             dateArray.forEach(d => { // PROBLEM LOGIC
+    //                 // moodObjectArray.indexOf(m) == -1
+    //                 // !m in moodObjectArray
+    //                 if (d == m.date) {
+    //                     // make key/value d : {foundMoods.date....} ?
+    //                     foundMoods.date = d;
+    //                     foundMoods.elevated = m.elevated;
+    //                     foundMoods.depressed = m.depressed;
+    //                     foundMoods.irritable = m.irritable;
+    //                     foundMoods.anxious = m.anxious;
+    //                     foundMoods.sleep = m.sleep;
+    //                     moodObjectArray.push(foundMoods)
+    //                 } 
+    //             })
+    //         })
+    //         const compare = (a,b) => {
+    //             let comparison = 0;
+    //             if (a.date > b.date) {
+    //                 comparison = 1
+    //             } else if (a.date < b.date) {
+    //                 comparison= -1;
+    //             }
+    //             return comparison
+    //         }
+
+    //         moodObjectArray.sort(compare);
+    //         console.log(moodObjectArray)
+    //     })
+
+    // router.get('/logout', (req, res) => {
+    //     req.logOut();
+    //     // FLASH MESSAGE  
+    //     req.flash('success', 'Logged out Successfully! See you soon!')
+    //     res.redirect('/');
+    //   })
+
+router.get('/edit', (req, res) => {
+    res.render('edit');
+})
