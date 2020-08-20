@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
             user.moods.forEach(m => {
                 // M IS ITERATING SUCCESSFULLY
                 foundMoods = {}
-                console.log(m)
+                // console.log(m)
                 dateArray.forEach(d => { // PROBLEM LOGIC
                     // moodObjectArray.indexOf(m) == -1
                     // !m in moodObjectArray
@@ -37,10 +37,13 @@ router.get('/', (req, res) => {
                         foundMoods.irritable = m.irritable;
                         foundMoods.anxious = m.anxious;
                         foundMoods.sleep = m.sleep;
-                        moodObjectArray.push(foundMoods)
+                        if (!moodObjectArray.includes(d)){
+                            moodObjectArray.push(foundMoods)
+                        } 
                     } 
                 })
             })
+            console.log(moodObjectArray)
             // moodObjectArray = moodObjectArray.sort((a,b) => {return b-a});
             // console.log(moodObjectArray)
             res.render('track/index', {dates: dateArray, moods: moodObjectArray})
