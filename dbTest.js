@@ -250,54 +250,68 @@ const sequelize = require('sequelize')
     //     res.redirect('/');
     //   })
 
-    let dateArray = [];
-    let moodObjectArray = [];
+    // let dateArray = [];
+    // let moodObjectArray = [];
 
-    // get last seven days
-    for (let i = 0; i<=7; i++) {
-        let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
-        dateArray.push(day)
-    }
-        db.user.findOne({
-            // TODO change to req.user.id (must be logged in ya dummy)
-            where: {id: 3},
-            include: [db.mood]
-        })
-        .then(user => {
-            // loop through moods associated w user
-            // if (mood.date) === dateArray[i] {foundMoods.push(mood)}
-            // loop thru foundMoods and dateArray
-            user.moods.forEach(m => {
-                foundMoods = {}
-                dateArray.forEach(d => { // PROBLEM LOGIC
-                    if (d == m.date) {
-                        // make key/value d : {foundMoods.date....} ?
-                        foundMoods.date = d;
-                        foundMoods.elevated = m.elevated;
-                        foundMoods.depressed = m.depressed;
-                        foundMoods.irritable = m.irritable;
-                        foundMoods.anxious = m.anxious;
-                        foundMoods.sleep = m.sleep;
-                        if (!moodObjectArray.includes(m.date)){
-                            moodObjectArray.push(foundMoods)
-                        } 
-                    } 
-                })
-            })
-            // sort moodObjectArray by date
-            const compare = (a,b) => {
-                let comparison = 0;
-                if (a.date > b.date) {
-                    comparison = 1
-                } else if (a.date < b.date) {
-                    comparison= -1;
-                }
-                return comparison
-            }
+    // // get last seven days
+    // for (let i = 0; i<=7; i++) {
+    //     let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
+    //     dateArray.push(day)
+    // }
+    //     db.user.findOne({
+    //         // TODO change to req.user.id (must be logged in ya dummy)
+    //         where: {id: 3},
+    //         include: [db.mood]
+    //     })
+    //     .then(user => {
+    //         // loop through moods associated w user
+    //         // if (mood.date) === dateArray[i] {foundMoods.push(mood)}
+    //         // loop thru foundMoods and dateArray
+    //         user.moods.forEach(m => {
+    //             foundMoods = {}
+    //             dateArray.forEach(d => { // PROBLEM LOGIC
+    //                 if (d == m.date) {
+    //                     // make key/value d : {foundMoods.date....} ?
+    //                     foundMoods.date = d;
+    //                     foundMoods.elevated = m.elevated;
+    //                     foundMoods.depressed = m.depressed;
+    //                     foundMoods.irritable = m.irritable;
+    //                     foundMoods.anxious = m.anxious;
+    //                     foundMoods.sleep = m.sleep;
+    //                     if (!moodObjectArray.includes(m.date)){
+    //                         moodObjectArray.push(foundMoods)
+    //                     } 
+    //                 } 
+    //             })
+    //         })
 
-            moodObjectArray.sort(compare);
-            console.log(moodObjectArray)
+    //         // REMOVES DUPLICATES FROM EJS BOUND ARRAY
+    //         // I WONT NEED THIS AFTER I FIX THE DUPLICATION ISSUE
 
-            // moodObjectArray = moodObjectArray.sort((a,b) => {return b-a});
-            // console.log(moodObjectArray)
-        })
+    //         // let moodSet = Array.from(new Set(moodObjectArray.map(a => a.date)))
+    //         // .map(date => {
+    //         //     return moodObjectArray.find(a => a.date === date)
+    //         // })
+    //         // console.log(moodSet)
+
+    //         // let removeDuplicates = [...moodSet]
+
+    //         // sort moodObjectArray by date
+    //         const compare = (a,b) => {
+    //             let comparison = 0;
+    //             if (a.date > b.date) {
+    //                 comparison = 1
+    //             } else if (a.date < b.date) {
+    //                 comparison= -1;
+    //             }
+    //             return comparison
+    //         }
+
+    //         moodObjectArray.sort(compare);
+    //         // console.log(moodObjectArray)
+
+    //         // moodObjectArray = moodObjectArray.sort((a,b) => {return b-a});
+    //         // console.log(moodObjectArray)
+    //     })
+
+    
