@@ -250,6 +250,54 @@ const sequelize = require('sequelize')
     //     res.redirect('/');
     //   })
 
-router.get('/edit', (req, res) => {
-    res.render('edit');
-})
+    let dateArray = [];
+    let moodObjectArray = [];
+
+    // get last seven days
+    for (let i = 0; i<=7; i++) {
+        let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
+        dateArray.push(day)
+    }
+        db.user.findOne({
+            // TODO change to req.user.id (must be logged in ya dummy)
+            where: {id: 3},
+            include: [db.mood]
+        })
+        .then(user => {
+            // loop through moods associated w user
+            // if (mood.date) === dateArray[i] {foundMoods.push(mood)}
+            // loop thru foundMoods and dateArray
+            user.moods.forEach(m => {
+                foundMoods = {}
+                dateArray.forEach(d => { // PROBLEM LOGIC
+                    if (d == m.date) {
+                        // make key/value d : {foundMoods.date....} ?
+                        foundMoods.date = d;
+                        foundMoods.elevated = m.elevated;
+                        foundMoods.depressed = m.depressed;
+                        foundMoods.irritable = m.irritable;
+                        foundMoods.anxious = m.anxious;
+                        foundMoods.sleep = m.sleep;
+                        if (!moodObjectArray.includes(m.date)){
+                            moodObjectArray.push(foundMoods)
+                        } 
+                    } 
+                })
+            })
+            // sort moodObjectArray by date
+            const compare = (a,b) => {
+                let comparison = 0;
+                if (a.date > b.date) {
+                    comparison = 1
+                } else if (a.date < b.date) {
+                    comparison= -1;
+                }
+                return comparison
+            }
+
+            moodObjectArray.sort(compare);
+            console.log(moodObjectArray)
+
+            // moodObjectArray = moodObjectArray.sort((a,b) => {return b-a});
+            // console.log(moodObjectArray)
+        })

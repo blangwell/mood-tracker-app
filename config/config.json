@@ -12,6 +12,7 @@
   "production": {
     "database": "mood_tracker_production",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "use_env_variable": "postgres://gshlnpyvzrgrqy:801e5facb8654a08cefaa3276f17e8ce9c5f9585cd295088a207526383ed886c@ec2-52-22-94-132.compute-1.amazonaws.com:5432/dfg0ekic2ugocu"
   }
 }

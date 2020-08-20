@@ -23,12 +23,8 @@ router.get('/', (req, res) => {
             // if (mood.date) === dateArray[i] {foundMoods.push(mood)}
             // loop thru foundMoods and dateArray
             user.moods.forEach(m => {
-                // M IS ITERATING SUCCESSFULLY
                 foundMoods = {}
-                // console.log(m)
                 dateArray.forEach(d => { // PROBLEM LOGIC
-                    // moodObjectArray.indexOf(m) == -1
-                    // !m in moodObjectArray
                     if (d == m.date) {
                         // make key/value d : {foundMoods.date....} ?
                         foundMoods.date = d;
@@ -43,7 +39,20 @@ router.get('/', (req, res) => {
                     } 
                 })
             })
+            // sort moodObjectArray by date
+            const compare = (a,b) => {
+                let comparison = 0;
+                if (a.date > b.date) {
+                    comparison = 1
+                } else if (a.date < b.date) {
+                    comparison= -1;
+                }
+                return comparison
+            }
+
+            moodObjectArray.sort(compare);
             console.log(moodObjectArray)
+
             // moodObjectArray = moodObjectArray.sort((a,b) => {return b-a});
             // console.log(moodObjectArray)
             res.render('track/index', {dates: dateArray, moods: moodObjectArray})
