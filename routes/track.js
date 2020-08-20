@@ -49,12 +49,12 @@ router.get('/', (req, res) => {
                 return comparison
             }
 
-            moodObjectArray.sort(compare);
+            moodObjectArray.sort(compare)
             console.log(moodObjectArray)
+            res.render('track/index', {dates: dateArray, moods: moodObjectArray})
 
             // moodObjectArray = moodObjectArray.sort((a,b) => {return b-a});
             // console.log(moodObjectArray)
-            res.render('track/index', {dates: dateArray, moods: moodObjectArray})
         })
         .catch(err => {console.log(err)})
 })
@@ -80,64 +80,89 @@ router.post('/show', (req, res) => {
         // user.getMoods().then(moods => {
             // let moodStuff = moods[0].dataValues;
             // console.log('THESE ARE THE USERS MOODS : ', moodStuff)
-            user.dataValues.moods.forEach(m => {   
+            // user.moods.forEach(m => {   
                 // ORIGINAL CODE COMMENTED OUT ABOVE GRAVEYARD
                 // console.log(m.date)
                 // for (let i =0;)
-                console.log('DATA VALUES DOT DATE : ' , m.dataValues.moods)
-                    if (m.dataValues.date == req.body.date) {
-                        m.update({
-                            elevated: req.body.elevated, 
-                            depressed: req.body.depressed,
-                            irritable: req.body.irritable,
-                            anxious: req.body.anxious,
-                            sleep: req.body.sleep
-                        }, {
-                            where: {date: req.body.date}
-                        })
-                        .then(()=> {
-                            res.redirect('/track/') 
-                        })
-                        .catch(err => {
-                            console.log(err)
-                        })
+                // console.log('THESE ARE THE USERS MOODS : ' , m)
+                    // if (m.date == req.body.date) {
+                    //     m.update({
+                    //         elevated: req.body.elevated, 
+                    //         depressed: req.body.depressed,
+                    //         irritable: req.body.irritable,
+                    //         anxious: req.body.anxious,
+                    //         sleep: req.body.sleep
+                    //     }, {
+                    //         where: {date: req.body.date}
+                    //     })
+                    //     .then(()=> {
+                    //         res.redirect('/track') 
+                    //     })
+                    //     .catch(err => {
+                    //         console.log(err)
+                    //     })
                         
-                    } else  {
-                        user.createMood({
-                            date: req.body.date,
-                            elevated: req.body.elevated, 
-                            depressed: req.body.depressed,
-                            irritable: req.body.irritable,
-                            anxious: req.body.anxious,
-                            sleep: req.body.sleep
-                        })
-                        .then(()=> {
-                            res.redirect('/track/') 
-                        })
-                        .catch(err => {
-                            console.log(err)
-                        })
-                    } 
-                // if (m.date({ where: { date: req.body.date}})) {
-                //     console.log('TRUE')
-                // } else { console.log('FALSE')}
+                    // } else  {
+                    //     user.createMood({
+                    //         date: req.body.date,
+                    //         elevated: req.body.elevated, 
+                    //         depressed: req.body.depressed,
+                    //         irritable: req.body.irritable,
+                    //         anxious: req.body.anxious,
+                    //         sleep: req.body.sleep
+                    //     })
+                    //     .then(()=> {
+                    //         res.redirect('/track') 
+                    //     })
+                    //     .catch(err => {
+                    //         console.log(err)
+                    //     })
+            //         } 
+            //     if (m.date({ where: { date: req.body.date}})) {
+            //         console.log('TRUE')
+            //     } else { console.log('FALSE')}
+            let dateArray = [];
+            let moodObjectArray = [];
 
-                // models.mood.findOrCreate({
-                //     where: {date: m.date},
-                //     defaults: {
-                //         elevated: req.body.elevated, 
-                //         depressed: req.body.depressed,
-                //         irritable: req.body.irritable,
-                //         anxious: req.body.anxious,
-                //         sleep: req.body.sleep
-                //     }
-                // }).then(([mood, created]) => {
-                //     console.log(mood)
-                //     console.log(`CREATED: ${created}`)
-                // })
+            for (let i = 0; i<=7; i++) {
+                let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
+                dateArray.push(day)
+            }
 
-            // })
-        })
+            dateArray.forEach(d => {
+                user.moods.findCreateFind({
+                    where: {date: d},
+                    defaults: {
+                        date: d,
+                        elevated: req.body.elevated,
+                        depressed: req.body.depressed,
+                        irritable: req.body.irritable,
+                        anxious: req.body.anxious,
+                        sleep: req.body.sleep
+                    }
+                })
+                .then(([mood, created]) => {
+                    console.log(mood, created)
+                })
+            })
+        //     user.moods.forEach(m => {  
+        //         users.moods.findOrCreate({
+        //             where: {date: m.date},
+        //             defaults: {
+        //                 date: m.date,
+        //                 elevated: req.body.elevated, 
+        //                 depressed: req.body.depressed,
+        //                 irritable: req.body.irritable,
+        //                 anxious: req.body.anxious,
+        //                 sleep: req.body.sleep
+        //             }
+        //         }).then(([mood, created]) => {
+        //             console.log(mood)
+        //             console.log(`CREATED: ${created}`)
+        //         })
+
+        //     // })
+        // })
         
     })
     .catch(err => {console.log(err)})

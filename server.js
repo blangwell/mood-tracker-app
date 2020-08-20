@@ -6,6 +6,8 @@ const app = express();
 const SECRET_SESSION = process.env.SECRET_SESSION;
 const passport = require('./config/ppConfig');
 const flash = require('connect-flash');
+const methodOverride = require('method-override');
+const db = require('./models')
 
 // require the authorization middleware (goes at top of script)
 const isLoggedIn = require('./middleware/isLoggedIn')
@@ -17,6 +19,7 @@ app.use(require('morgan')('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 app.use(layouts);
+app.use(methodOverride('_method'));
 
 // secret: what we are giving the client to use our site/ SESSION COOKIE
 // resave: save the session even if it's modified, make this false
@@ -56,13 +59,11 @@ app.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile', {user: req.user});
 });
 
-app.get('/edit', (req, res) => {
-  res.render('edit', {user: req.user});
-})
 
 app.use('/auth', require('./routes/auth'));
 app.use('/track', require('./routes/track'))
 app.use('/help', require('./routes/help'))
+app.use('/user', require('./routes/user'))
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {

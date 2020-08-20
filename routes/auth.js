@@ -33,7 +33,7 @@ router.post('/signup', (req, res) => {
       // authenticate them
       // flash message
       passport.authenticate('local', {
-        successRedirect: '/',
+        successRedirect: '/profile',
         successFlash: 'Account created'
       })(req, res);
       // before passport authenticate

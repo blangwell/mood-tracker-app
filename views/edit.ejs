@@ -1,6 +1,16 @@
 <h2 class="title">Account Settings</h2>
 <% console.log(user) %>
-Hello <%= user.name %><br />
+<%= user.name %><br />
 
-<!-- delete route method override goes here -->
-<small>delete my account</small>
+<div class="form-group">
+    <form method="POST" action="/user/edit?_method=PUT">
+        <label for="update-email">Update Email</label>
+        <input class="form-control" id="update-email" type="email" name="email" value="<%= user.email %>">
+        <button class="btn btn-primary blue darken-2" type="submit">Update Information</button>
+    </form>
+  </div>
+
+<form method="POST" action="/user/edit?_method=DELETE">
+    <input hidden type="text" name="user" value="user">
+    <button class="btn btn-primary blue darken-2" type="submit">Delete Account</button>
+</form>
