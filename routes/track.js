@@ -14,13 +14,10 @@ router.get('/', (req, res) => {
         dateArray.push(day)
     }
         db.user.findOne({
-            // TODO change to req.user.id (must be logged in ya dummy)
             where: {id: req.user.id},
             include: [db.mood]
         })
         .then(user => {
-            // loop through moods associated w user
-            // if (mood.date) === dateArray[i] {foundMoods.push(mood)}
             // loop thru foundMoods and dateArray
             user.moods.forEach(m => {
                 foundMoods = {}
@@ -34,10 +31,10 @@ router.get('/', (req, res) => {
                         foundMoods.anxious = m.anxious;
                         foundMoods.sleep = m.sleep;
                         moodObjectArray.push(foundMoods)
-                        
                     } 
                 })
             })
+
             // sort moodObjectArray by date
             const compare = (a,b) => {
                 let comparison = 0;
@@ -52,9 +49,6 @@ router.get('/', (req, res) => {
             moodObjectArray.sort(compare)
             console.log(moodObjectArray)
             res.render('track/index', {dates: dateArray, moods: moodObjectArray})
-
-            // moodObjectArray = moodObjectArray.sort((a,b) => {return b-a});
-            // console.log(moodObjectArray)
         })
         .catch(err => {console.log(err)})
 })
@@ -69,106 +63,121 @@ router.get('/show', (req, res) => {
     console.log(req.body);
     res.render('track/show')
 })
- 
+
+
+
 router.post('/show', (req, res) => {
     db.user.findOne({
         where: {id: req.user.id},
         include: [db.mood]
     })
     .then(user => {
-        console.log('hitting the user : ', user)
-        // user.getMoods().then(moods => {
-            // let moodStuff = moods[0].dataValues;
-            // console.log('THESE ARE THE USERS MOODS : ', moodStuff)
-            // user.moods.forEach(m => {   
-                // ORIGINAL CODE COMMENTED OUT ABOVE GRAVEYARD
-                // console.log(m.date)
-                // for (let i =0;)
-                // console.log('THESE ARE THE USERS MOODS : ' , m)
-                    // if (m.date == req.body.date) {
-                    //     m.update({
-                    //         elevated: req.body.elevated, 
-                    //         depressed: req.body.depressed,
-                    //         irritable: req.body.irritable,
-                    //         anxious: req.body.anxious,
-                    //         sleep: req.body.sleep
-                    //     }, {
-                    //         where: {date: req.body.date}
-                    //     })
-                    //     .then(()=> {
-                    //         res.redirect('/track') 
-                    //     })
-                    //     .catch(err => {
-                    //         console.log(err)
-                    //     })
-                        
-                    // } else  {
-                    //     user.createMood({
-                    //         date: req.body.date,
-                    //         elevated: req.body.elevated, 
-                    //         depressed: req.body.depressed,
-                    //         irritable: req.body.irritable,
-                    //         anxious: req.body.anxious,
-                    //         sleep: req.body.sleep
-                    //     })
-                    //     .then(()=> {
-                    //         res.redirect('/track') 
-                    //     })
-                    //     .catch(err => {
-                    //         console.log(err)
-                    //     })
-            //         } 
-            //     if (m.date({ where: { date: req.body.date}})) {
-            //         console.log('TRUE')
-            //     } else { console.log('FALSE')}
-            let dateArray = [];
-            let moodObjectArray = [];
-
-            for (let i = 0; i<=7; i++) {
-                let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
-                dateArray.push(day)
-            }
-
-            dateArray.forEach(d => {
-                user.moods.findCreateFind({
-                    where: {date: d},
-                    defaults: {
-                        date: d,
-                        elevated: req.body.elevated,
-                        depressed: req.body.depressed,
-                        irritable: req.body.irritable,
-                        anxious: req.body.anxious,
-                        sleep: req.body.sleep
-                    }
-                })
-                .then(([mood, created]) => {
-                    console.log(mood, created)
-                })
-            })
-        //     user.moods.forEach(m => {  
-        //         users.moods.findOrCreate({
-        //             where: {date: m.date},
-        //             defaults: {
-        //                 date: m.date,
-        //                 elevated: req.body.elevated, 
-        //                 depressed: req.body.depressed,
-        //                 irritable: req.body.irritable,
-        //                 anxious: req.body.anxious,
-        //                 sleep: req.body.sleep
-        //             }
-        //         }).then(([mood, created]) => {
-        //             console.log(mood)
-        //             console.log(`CREATED: ${created}`)
-        //         })
-
-        //     // })
-        // })
-        
+        console.log('hitting the user : ', user.dataValues.moods[0].usersMoods)
+        user.getMoods(moods => {
+            // console.log('MOODS I GOT: ', moods)
+        })
     })
     .catch(err => {console.log(err)})
 })
+ 
 module.exports = router;
 
+
+
+// router.post('/show', (req, res) => {
+//     db.user.findOne({
+//         where: {id: req.user.id},
+//         include: [db.mood]
+//     })
+//     .then(user => {
+//         console.log('hitting the user : ', user)
+//         user.getMoods().then(moods => {
+//             moods.forEach(m => {   
+//                 // ORIGINAL CODE COMMENTED OUT ABOVE GRAVEYARD
+//                     if (m.date == req.body.date) {
+//                         db.mood.update({
+//                             elevated: req.body.elevated, 
+//                             depressed: req.body.depressed,
+//                             irritable: req.body.irritable,
+//                             anxious: req.body.anxious,
+//                             sleep: req.body.sleep
+//                         }, {
+//                             where: {date: req.body.date}
+//                         })
+//                         .then(()=> {
+//                             res.redirect('/track') 
+//                         })
+//                         .catch(err => {
+//                             console.log(err)
+//                         })
+                        
+//                     } else  {
+//                         user.createMood({
+//                             date: req.body.date,
+//                             elevated: req.body.elevated, 
+//                             depressed: req.body.depressed,
+//                             irritable: req.body.irritable,
+//                             anxious: req.body.anxious,
+//                             sleep: req.body.sleep
+//                         })
+//                         .then(()=> {
+//                             res.redirect('/track') 
+//                         })
+//                         .catch(err => {
+//                             console.log(err)
+//                         })
+//                     } 
+//             //     if (m.date({ where: { date: req.body.date}})) {
+//             //         console.log('TRUE')
+//             //     } else { console.log('FALSE')}
+//             let dateArray = [];
+//             let moodObjectArray = [];
+
+//             for (let i = 0; i<=7; i++) {
+//                 let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
+//                 dateArray.push(day)
+//             }
+
+//             dateArray.forEach(d => {
+//                 user.moods.findCreateFind({
+//                     where: {date: d},
+//                     defaults: {
+//                         date: d,
+//                         elevated: req.body.elevated,
+//                         depressed: req.body.depressed,
+//                         irritable: req.body.irritable,
+//                         anxious: req.body.anxious,
+//                         sleep: req.body.sleep
+//                     }
+//                 })
+//                 .then(([mood, created]) => {
+//                     console.log(mood, created)
+//                 })
+//             })
+            
+//         })
+//         // .catch(err => {console.log(err)})
+//     })
+    
+    
+    //     user.moods.forEach(m => {  
+    //         users.moods.findOrCreate({
+    //             where: {date: m.date},
+    //             defaults: {
+    //                 date: m.date,
+    //                 elevated: req.body.elevated, 
+    //                 depressed: req.body.depressed,
+    //                 irritable: req.body.irritable,
+    //                 anxious: req.body.anxious,
+    //                 sleep: req.body.sleep
+    //             }
+    //         }).then(([mood, created]) => {
+    //             console.log(mood)
+    //             console.log(`CREATED: ${created}`)
+    //         })
+
+    //     // })
+    // })
 
 //     moods.forEach(m => {
 //         if (m.date == req.body.date) {
@@ -346,8 +355,7 @@ module.exports = router;
     //             }
     //         })
     
-    //     })
+     //   })
     //     // console.log(req.body);
     //     res.redirect('/track/show')
-    // })
-    
+//})

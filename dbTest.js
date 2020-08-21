@@ -314,4 +314,17 @@ const sequelize = require('sequelize')
     //         // console.log(moodObjectArray)
     //     })
 
-    
+
+    db.user.findOne({
+        where: {id: 1},
+        include: [db.mood]
+    })
+    .then(user => {
+        console.log('hitting the user : ', user.dataValues)
+        user.getMoods(moods => {
+            console.log('MOODS I GOT: ', moods)
+        })
+    })
+    .catch(err => {console.log(err)})
+
+     

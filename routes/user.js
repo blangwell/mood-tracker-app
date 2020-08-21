@@ -10,7 +10,7 @@ router.get('/edit', (req, res) => {
 router.put('/edit', (req, res) => {
     db.user.update({email: req.body.email}, {where: {email: req.user.email},})
     .then(() => {
-        res.render('profile', {user: req.user})
+        res.redirect('/profile')
     })
 })
   
