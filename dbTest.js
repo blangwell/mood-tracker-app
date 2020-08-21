@@ -2,7 +2,7 @@ const db = require('./models');
 const moment = require('moment');
 // const { QueryInterface } = require('sequelize/types');
 const date = moment().format('YYYY-MM-DD')
-const sequelize = require('sequelize')
+const sequelize = require('sequelize');
 
 // db.mood.create({
 //     date: date,
@@ -67,6 +67,8 @@ const sequelize = require('sequelize')
 // //     where: {date: date},
 // //     defaults: {depressed: 3}
 // // }).then(([result, created]) => {console.log(result, created)})
+
+
 
 // QueryInterface.addColumn('user', 'medication', Sequelize.STRING, {
 //     after: 'password'
@@ -315,22 +317,52 @@ const sequelize = require('sequelize')
     //     })
 
 
-    db.user.findOne({
-        where: {id: 1},
-        include: [db.mood]
-    })
-    .then(user => {
-        // DATAVALUES IS AN OBJECT
-        // console.log('HERE IS USER.DATAVALUES : ', user.dataValues)
-        // USER.MOODS IS AN ARRAY
-        // console.log(' HERE IS USER.MOODS : ', user.moods)
-        user.moods.forEach(mood => {
-            // console.log(mood.date)
-            if (mood.date == '2020-08-20') console.log(mood.date)
-        })
+    // db.user.findOne({
+    //     where: {id: 1},
+    //     include: [db.mood]
+    // })
+    // .then(user => {
+    //     console.log('USER.MOODS : ', user.moods)
+    //     user.getMoods({
+    //         where: {date: '2020-08-20'}
+    //     })
+    //     .then(m => {
+    //         console.log('FOUND : ', m)
+            // user.setMoods(
+            //     {where: {date: '2020-08-20'}},
+            //     {
+            //     date: '2020-08-20',
+            //     elevated: 0,
+            //     depressed: 0,
+            //     irritable: 0,
+            //     anxious: 0, 
+            //     sleep: 10
+            // })
+        // })
+        // .catch(err => {console.log(err)})
+           
+        // })
+        // user.moods.forEach(mood => {
+            // let updateVals = {
+            //     date: mood.date,
+            //     elevated: mood.elevated,
+            //     depressed: mood.depressed,
+            //     irritable: mood.irritable,
+            //     anxious: mood.anxious,
+            //     sleep: mood.sleep
+            // }
+            // // console.log(mood.date)
+            // // date string becomes d var 
+            // if (mood.date == '2020-08-20') {
+            //     console.log(mood.date)
+            //     db.mood.update(
+            //         updateVals, {where: {: 1}}
+            //     )
+            // }
+        // })
         
-    })
-    .catch(err => {console.log(err)})
+    // })
+    // .catch(err => {console.log(err)})
     
     
     // let userMoods = user.moods;
@@ -352,3 +384,15 @@ const sequelize = require('sequelize')
     // .then(([mood, created]) => {
     //     console.log(`MOOD: ${mood} | CREATED: ${created}`)
     // })
+
+    db.user.findOne({
+        where: {id: 10},
+        include: [db.mood]
+    })
+    .then(user => {
+        // console.log('hitting the user : ', user.dataValues.moods[0].usersMoods)
+        // console.log(user.moods[0].usersMoods.dataValues.moodId)
+        user.moods.forEach(m => {
+            console.log(m.usersMoods.dataValues.moodId)
+        })
+    })

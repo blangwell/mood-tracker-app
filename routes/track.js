@@ -1,7 +1,8 @@
 const express = require('express');
 const db = require('../models');
+const mood = require('../models/mood')
 const router = express.Router();
-const moment = require('moment') 
+const moment = require('moment'); 
 const today = moment().format('YYYY-MM-DD')
 
 router.get('/', (req, res) => {
@@ -38,9 +39,9 @@ router.get('/', (req, res) => {
             // sort moodObjectArray by date
             const compare = (a,b) => {
                 let comparison = 0;
-                if (a.date > b.date) {
+                if (a.date < b.date) {
                     comparison = 1
-                } else if (a.date < b.date) {
+                } else if (a.date > b.date) {
                     comparison= -1;
                 }
                 return comparison
@@ -69,13 +70,31 @@ router.get('/show', (req, res) => {
 router.post('/show', (req, res) => {
     db.user.findOne({
         where: {id: req.user.id},
-        include: [db.mood]
+        // include: [db.mood]
     })
     .then(user => {
-        console.log('hitting the user : ', user.dataValues.moods[0].usersMoods)
+        // console.log('hitting the user : ', user.dataValues.moods[0].usersMoods)
         user.getMoods(moods => {
-            // console.log('MOODS I GOT: ', moods)
-        })
+        console.log('MOODS I GOT: ', moods)
+        // })
+        // console.log(user.moods)
+        // user.moods.forEach(m => {
+        //     if (m.date == req.body.date) {
+
+        //     }
+        // })
+        // if (req.body.date == user.moods.date) {}
+        // if (req.body.date == user.moods.date) {
+        //     user.createMood({
+        //         date: req.body.date,
+        //         elevated: req.body.elevated,
+        //         depressed: req.body.depressed,
+        //         irritable: req.body.irritable,
+        //         anxious: req.body.anxious,
+        //         sleep: req.body.sleep
+        //     })
+        // }
+        res.redirect('/track')
     })
     .catch(err => {console.log(err)})
 })
