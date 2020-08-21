@@ -68,6 +68,7 @@ router.get('/show', (req, res) => {
 
 
 router.post('/show', (req, res) => {
+    console.log(req.body)
     db.user.findOne({
         where: {id: req.user.id},
         include: [db.mood]
@@ -82,29 +83,44 @@ router.post('/show', (req, res) => {
             sleep: req.body.sleep
         }
 
-        // THIS RETURNS BOOLEAN
+        // FILTER RETURNS BOOLEAN
         let filteredMoods = user.moods.filter(m => {
             return m.date == req.body.date
         })
 
+        console.log('FILTERED MOOD LENGTH : ' , filteredMoods.length)
         if (filteredMoods.length > 0) {
             filteredMoods[0].update(newMood)
-            console.log(' ARRAY NOT EMPTY, UPDATING ')
+            .then(updated => {
+                console.log(' ARRAY NOT EMPTY, UPDATING.... ', updated)
+                res.redirect('/track')
+            })
+            .catch(err => {console.log(err)})
+
         } else {
-            user.addMood(newMood)
-            (' ARRAY EMPTY, CREATING ....')
+            console.log('THIS IS THE NEW MOOD : ', newMood)
+            user.createMood({ 
+                date: req.body.date,
+                elevated: req.body.elevated,
+                depressed: req.body.depressed,
+                irritable: req.body.irritable,
+                anxious: req.body.anxious,
+                sleep: req.body.sleep
+            })
+            .then(relationInfo => {
+                (' ARRAY EMPTY, CREATING ....', relationInfo)
+                res.redirect('/track')
+                
+            })
+            .catch(err => {console.log(err)})
         }
 
-        console.log('FILT MOOD LENGTH : ' , filteredMoods.length)
         
-        res.redirect('/track')
+        // res.redirect('/track')
     })
     .catch(err => {console.log(err)})
 })
 module.exports = router;
-
-// ================== THE GRAVEYARD ======================
-// RIP code, thank you for helping me grow.
 
         // console.log('hitting the user : ', user.dataValues.moods[0].usersMoods)
         // let joinTable = user.datavalues.moods[2].usersMoods
@@ -256,6 +272,9 @@ module.exports = router;
 //     })
 // })
 // .catch(err => {console.log(err)})
+
+
+// ==========THE GRAVEYARD========== 
 
 //router.post('/show', (req, res) => {
     // db.user.findOne({
