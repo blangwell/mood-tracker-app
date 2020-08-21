@@ -393,6 +393,9 @@ const sequelize = require('sequelize');
         // console.log('hitting the user : ', user.dataValues.moods[0].usersMoods)
         // console.log(user.moods[0].usersMoods.dataValues.moodId)
         user.moods.forEach(m => {
+            // ACCESS FOREIGN KEY
             console.log(m.usersMoods.dataValues.moodId)
+
+
         })
     })

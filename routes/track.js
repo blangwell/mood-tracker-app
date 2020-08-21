@@ -1,6 +1,5 @@
 const express = require('express');
 const db = require('../models');
-const mood = require('../models/mood')
 const router = express.Router();
 const moment = require('moment'); 
 const today = moment().format('YYYY-MM-DD')
@@ -60,6 +59,7 @@ router.get('/new', (req, res) => {
     res.render('track/new', {today})
 })
 
+
 router.get('/show', (req, res) => {
     console.log(req.body);
     res.render('track/show')
@@ -70,12 +70,29 @@ router.get('/show', (req, res) => {
 router.post('/show', (req, res) => {
     db.user.findOne({
         where: {id: req.user.id},
-        // include: [db.mood]
+        include: [db.mood]
     })
     .then(user => {
-        // console.log('hitting the user : ', user.dataValues.moods[0].usersMoods)
-        user.getMoods(moods => {
-        console.log('MOODS I GOT: ', moods)
+        user.moods.forEach(m => {
+            console.log(m.usersMoods.dataValues.moodId)
+            if (m.date == req.body.date) {
+                m.update({
+                    date: req.body.date,
+                    elevated: req.body.elevated,
+                    depressed: req.body.depressed,
+                    irritable: req.body.irritable,
+                    anxious: req.body.anxious,
+                    sleep: req.body.sleep
+                })
+            }
+            
+            res.redirect('/track')
+            
+        })
+        .catch(err => {console.log(err)})
+    })
+})
+    module.exports = router;
         // })
         // console.log(user.moods)
         // user.moods.forEach(m => {
@@ -94,12 +111,6 @@ router.post('/show', (req, res) => {
         //         sleep: req.body.sleep
         //     })
         // }
-        res.redirect('/track')
-    })
-    .catch(err => {console.log(err)})
-})
- 
-module.exports = router;
 
 
 
@@ -377,4 +388,4 @@ module.exports = router;
      //   })
     //     // console.log(req.body);
     //     res.redirect('/track/show')
-//})
+// })
