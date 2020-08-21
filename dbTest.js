@@ -320,11 +320,35 @@ const sequelize = require('sequelize')
         include: [db.mood]
     })
     .then(user => {
-        console.log('hitting the user : ', user.dataValues)
-        user.getMoods(moods => {
-            console.log('MOODS I GOT: ', moods)
+        // DATAVALUES IS AN OBJECT
+        // console.log('HERE IS USER.DATAVALUES : ', user.dataValues)
+        // USER.MOODS IS AN ARRAY
+        // console.log(' HERE IS USER.MOODS : ', user.moods)
+        user.moods.forEach(mood => {
+            // console.log(mood.date)
+            if (mood.date == '2020-08-20') console.log(mood.date)
         })
+        
     })
     .catch(err => {console.log(err)})
-
-     
+    
+    
+    // let userMoods = user.moods;
+    
+    // db.mood.findOrCreate({
+    //     where: {
+    //         date: date,
+    //     },
+    //     defaults: {
+    //         date: date,
+    //         elevated: 0,
+    //         depressed: 0,
+    //         irritable: 0,
+    //         anxious: 0,
+    //         sleep: 0
+            
+    //     }
+    // })
+    // .then(([mood, created]) => {
+    //     console.log(`MOOD: ${mood} | CREATED: ${created}`)
+    // })
