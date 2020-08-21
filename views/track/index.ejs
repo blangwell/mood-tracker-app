@@ -7,11 +7,11 @@
 
 <% const getData = (metric, array) => {%>
     <% moods.forEach(m => { %>
-        <% if (m[metric] !== null) {%>
+        <% if (m !== undefined) {%>
             <% array.push(m[metric]) %>
         <% } else { %>
-            <% array.push(0)%>
-        <% } %>
+            <% array.push(0) %>
+       <% } %>
     <% }) %>
 <% } %>
   
@@ -61,6 +61,7 @@
                     backgroundColor: backgroundRbg,
                     borderColor: borderRbg,
                     data: data,
+                    spanGaps: true
                 }]
             },
             options: {

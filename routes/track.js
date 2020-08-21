@@ -9,31 +9,49 @@ router.get('/', (req, res) => {
     let moodObjectArray = [];
 
     // get last seven days
-    for (let i = 0; i<=7; i++) {
-        let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
-        dateArray.push(day)
-    }
+    // for (let i = 0; i<=7; i++) {
+    //     let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
+    //     dateArray.push(day)
+    // }
         db.user.findOne({
             where: {id: req.user.id},
             include: [db.mood]
         })
         .then(user => {
-            // loop thru foundMoods and dateArray
             user.moods.forEach(m => {
-                foundMoods = {}
-                dateArray.forEach(d => { // PROBLEM LOGIC
-                    if (d == m.date) {
-                        // make key/value d : {foundMoods.date....} ?
-                        foundMoods.date = d;
-                        foundMoods.elevated = m.elevated;
-                        foundMoods.depressed = m.depressed;
-                        foundMoods.irritable = m.irritable;
-                        foundMoods.anxious = m.anxious;
-                        foundMoods.sleep = m.sleep;
-                        moodObjectArray.push(foundMoods)
-                    } 
-                })
+                dateArray.push(m.date)
+                moodObjectArray.push(m)
             })
+
+            // let userMoods = [...user.moods]
+            
+            // const compare = (a,b) => {
+            //     let comparison = 0;
+            //     if (a.date < b.date) {
+            //         comparison = 1
+            //     } else if (a.date > b.date) {
+            //         comparison= -1;
+            //     }
+            //     return comparison
+            // }
+
+            // userMoods.sort(compare)
+            // // foundMoods = {}
+            // // loop thru foundMoods and dateArray
+            // console.log(userMoods)
+            // let moodMap = dateArray.map((d, i) => {
+            //     if (userMoods[i].date == d) {
+            //         return userMoods[i]
+            //     }
+            //     // let filteredMoods = user.moods.filter(m => {
+            //     //     return m.date == d
+            //     // })
+            //     // if (filteredMoods) moodObjectArray.splice(i, 0, filteredMoods[0])
+            //     // else moodObjectArray.splice(i, 0, null)
+            // })
+
+            // moodQueue.forEach(m => {console.log(m.date)})
+        
 
             // sort moodObjectArray by date
             const compare = (a,b) => {
@@ -45,9 +63,22 @@ router.get('/', (req, res) => {
                 }
                 return comparison
             }
+            const compareDates = (a,b) => {
+                let comparison = 0;
+                if (a < b) {
+                    comparison = 1
+                } else if (a > b) {
+                    comparison= -1;
+                }
+                return comparison
+            }
+
+            
 
             moodObjectArray.sort(compare)
-            // console.log(moodObjectArray)
+            dateArray.sort(compareDates)
+            console.log(' MOOD OBJECT ARRAY : ', moodObjectArray)
+            console.log(' DATE ARRAY : ', dateArray)
             res.render('track/index', {dates: dateArray, moods: moodObjectArray})
         })
         .catch(err => {console.log(err)})
@@ -114,13 +145,56 @@ router.post('/show', (req, res) => {
             })
             .catch(err => {console.log(err)})
         }
-
-        
         // res.redirect('/track')
     })
     .catch(err => {console.log(err)})
 })
 module.exports = router;
+
+
+                    // if (m.date in dateArray) {
+                    //     foundMoods.date = d;
+                    //     foundMoods.elevated = m.elevated;
+                    //     foundMoods.depressed = m.depressed;
+                    //     foundMoods.irritable = m.irritable;
+                    //     foundMoods.anxious = m.anxious;
+                    //     foundMoods.sleep = m.sleep;
+                    //     moodObjectArray.push(foundMoods)
+                    // } else {
+                    //     foundMoods.date = d;
+                    //     foundMoods.elevated = 0;
+                    //     foundMoods.depressed = 0;
+                    //     foundMoods.irritable = 0;
+                    //     foundMoods.anxious = 0;
+                    //     foundMoods.sleep = 0;
+                    //     moodObjectArray.push(foundMoods)
+                    // }
+
+            // console.log(moodQueue)
+
+
+                // dateArray.forEach(d => { // PROBLEM LOGIC
+                //     if (m.date in dateArray) {
+                //         // make key/value d : {foundMoods.date....} ?
+                //         foundMoods.date = d;
+                //         foundMoods.elevated = m.elevated;
+                //         foundMoods.depressed = m.depressed;
+                //         foundMoods.irritable = m.irritable;
+                //         foundMoods.anxious = m.anxious;
+                //         foundMoods.sleep = m.sleep;
+                //         moodObjectArray.push(foundMoods)
+                //     }  else if () {
+                //         foundMoods.date = d;
+                //         foundMoods.elevated = 0;
+                //         foundMoods.depressed = 0;
+                //         foundMoods.irritable = 0;
+                //         foundMoods.anxious = 0;
+                //         foundMoods.sleep = 0;
+                //         moodObjectArray.push(foundMoods)
+                //     }
+                //     console.log(moodObjectArray)
+                // })
+
 
         // console.log('hitting the user : ', user.dataValues.moods[0].usersMoods)
         // let joinTable = user.datavalues.moods[2].usersMoods
