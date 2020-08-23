@@ -2,7 +2,7 @@
 <h1 class="page-title">Account Settings</h1><br /><br />
 <div class="form-group">
     <h2 class="page-subtitle">Update Email</h2>
-    <form method="POST" action="/user/edit?_method=PUT" class="form-inline">
+    <form method="POST" action="/user/edit?_method=PUT" class="form-inline" id="update-email">
         <input class="form-control" id="update-email" type="email" name="email" value="<%= user.email %>">
         <button class="btn btn-primary blue darken-2" type="submit">Update</button>
     </form>

@@ -9,6 +9,7 @@ const flash = require('connect-flash');
 const methodOverride = require('method-override');
 const db = require('./models')
 
+
 // require the authorization middleware (goes at top of script)
 const isLoggedIn = require('./middleware/isLoggedIn')
 

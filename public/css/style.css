@@ -10,6 +10,12 @@ main {
   padding: 20px;
   text-align: center;
 }
+small {
+  font-size: 12px;
+}
+button, .submit {
+  margin: 5px;
+}
 
 .navbar-brand {
   font-family: 'Roboto Slab', serif;
@@ -17,8 +23,6 @@ main {
 .nav-item {
   font-size: 14px;
 }
-
-
 .page-title {
   font-family: 'Roboto Slab', serif;
   font-size: 30px;
@@ -43,34 +47,11 @@ main {
 .form-label {
   font-size: 16px;
 }
-button, .submit {
-  margin: 5px;
-}
 .auth {
   display: flex;
   justify-content: center;
 }
 
-small {
-  font-size: 12px;
-}
-
-
-#landing {
-  margin: 100px 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#landing-title {
-  font-size: 50px;
-}
-
-#landing-subtitle {
-  font-family: 'Montserrat', sans-serif;
-}
 .edit-info {
   font-size: 12px;
   padding: 5px;
@@ -78,6 +59,25 @@ small {
 
 .custom-select {
   max-width: 400px;
+}
+
+
+#update-email {
+  display: flex;
+  justify-content: center;
+}
+#landing {
+  margin: 100px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#landing-title {
+  font-size: 50px;
+}
+#landing-subtitle {
+  font-family: 'Montserrat', sans-serif;
 }
 #crisis-hotlines {
   text-align: center;
