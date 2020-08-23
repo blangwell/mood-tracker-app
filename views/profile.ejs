@@ -1,14 +1,19 @@
 <main>
-    <h1 class="page-title">Welcome back <%= user.name %>!</h1>
+    <h1 class="page-title">Welcome back <%= user.name %>!</h1><br />
     <div id="button-links">
         <a href="/track/new">
-            <button type="button" class="btn btn-dark" style="background-color: #373b41"">
+            <button class="btn btn-dark btn-lg" style="background-color: #373b41"">
                 Track Moods
             </button>
         </a>
         <a href="/track/">
-            <button class="btn btn-dark" style="background-color: #373b41" >
+            <button class="btn btn-dark btn-lg" style="background-color: #373b41" >
                 Your Week
+            </button>
+        </a> <br />
+        <a href="/help/">
+            <button type="button" class="btn btn-danger btn-lg">
+                Get Help Now    
             </button>
         </a>
     </div>

@@ -8,7 +8,7 @@ body {
 }
 main {
   padding: 20px;
-  /* font-size: 14px; */
+  text-align: center;
 }
 
 .navbar-brand {
@@ -27,7 +27,12 @@ main {
   font-family: 'Roboto Slab', serif; 
   font-size: 20px;
 }
-
+.charts {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .chart-view {
   max-width: 400px;
   max-height: auto;
@@ -35,16 +40,12 @@ main {
 .form-control {
   max-width: 400px;
 }
-.form-check-label {
-  font-size: 12px;
-}
 .form-label {
   font-size: 16px;
 }
 button, .submit {
   margin: 5px;
 }
-
 .auth {
   display: flex;
   justify-content: center;
@@ -78,6 +79,9 @@ small {
 .custom-select {
   max-width: 400px;
 }
+#crisis-hotlines {
+  text-align: center;
+}
 
 
 
@@ -93,5 +97,8 @@ small {
   }
   .page-title {
     font-size: 50px;
+  }
+  .chart-view {
+    max-width: 800px;
   }
 }

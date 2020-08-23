@@ -1,4 +1,3 @@
-
 <% let elevatedArray = [] %>
 <% let depressedArray = [] %>
 <% let irritableArray = [] %>
@@ -25,11 +24,23 @@
 
 <main>              
     <h1 class="page-title">Your Week at a Glance</h1><br />
-    <canvas class="chart-view" id="elevated-chart"></canvas><br />
-    <canvas class="chart-view" id="depressed-chart"></canvas><br />
-    <canvas class="chart-view" id="irritable-chart"></canvas><br />
-    <canvas class="chart-view" id="anxious-chart"></canvas><br />
-    <canvas class="chart-view" id="sleep-chart"></canvas><br />
+    <div class="charts">
+        <canvas class="chart-view" id="elevated-chart"></canvas><br />
+        <canvas class="chart-view" id="depressed-chart"></canvas><br />
+        <canvas class="chart-view" id="irritable-chart"></canvas><br />
+        <canvas class="chart-view" id="anxious-chart"></canvas><br />
+        <canvas class="chart-view" id="sleep-chart"></canvas><br />
+    </div>
+    <a href="/track/new">
+        <button class="btn btn-dark btn-lg" style="background-color: #373b41" >
+            Track More Moods
+        </button>
+    </a>
+    <a href="/profile">
+        <button class="btn btn-dark btn-lg" style="background-color: #373b41" >
+            Back to Profile
+        </button>
+    </a>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -73,6 +84,7 @@
                         ticks: {
                             max: 3,
                             min: 0,
+                            stepSize: 1
                         }
                     }]
                 }

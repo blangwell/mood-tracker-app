@@ -1,6 +1,8 @@
 const express = require('express');
 const db = require('../models');
 const router = express.Router();
+const moment = require('moment');
+let today = moment().format('YYYY-MM-DD')
 
 router.get('/', (req, res) => {
     let dateArray = [];
