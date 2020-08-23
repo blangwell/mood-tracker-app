@@ -1,30 +1,51 @@
 # Mood tracker app
 
-### Technology
+## Technology
 - Node.js
 - Express
-- Sequelize
 - EJS
+- Sequelize
+- Chartjs
 
-### Process
+## Process
+
+### Planning
+Before writing any code, I drafted an ERD and wireframes for the project.  
+
+[ERD](https://drive.google.com/file/d/17K8AHv5uGz8-d9zegZ-SNLBP4y3vX8nt/view?usp=sharing)
+
+[Wireframes](https://drive.google.com/file/d/18aWveG_Yp9A9CJqqFNHi3GROVF6yRJLD/view?usp=sharing)
+
+Once I had a idea of what the app's pages and database would look like, I made a Kanban board via Trello to manage the project.
+
+[Kanban Board](https://trello.com/b/noPdaTUX/mood-tracker-app)
+
+### Getting to Work
+
 I started off by adding in authorization boilerplate that I had written for just such an occasion. In this instance, the authorization is handled with bcrypt, oAuth, express-session, and passport.
 
-Then I initialized Sequelize and created the mood_tracker development, test, and production databases. I first created the user and mood models. User stores the user's name and authentication information, while Mood stores mood tracker entry data. 
-I then created `dbTest.js` and ran a few tests to see if the database was set up properly. It took some time to get my associations configured successfully. A bit of digging in the Sequelize docs and a little help from my colleagues uncovered the issue. I had forgotten the `through` value in the association!
+Then I initialized Sequelize and created the mood_tracker development, test, and production databases. I first created the `user` and `mood` models. User stores the user's name and authentication information, while Mood stores mood tracker entry data. Then I joined them with a n:m association through `usersMoods`
+```js
+
+```
+At this point I created `dbTest.js` and ran a few tests to see if the database was set up properly. It took some time to get my associations configured successfully. A bit of digging in the Sequelize docs and a little help from my colleagues uncovered an issue. I had forgotten the `through` value in the association!
 
 ```js
 module.exports = (sequelize, DataTypes) => {
   class mood extends Model {
     static associate(models) {
-      // define association here
       models.mood.belongsToMany(models.user, 
-        {through: 'usersMoods'})
-    }
-  };
+        {through: 'usersMoods', onDelete: 'CASCADE'})
 ```
-Once that was fixed
-Because the `mood` table takes a date field, I looked into generating a date via the deprecated `new Date()` method. I ran into an warning that these Date objects are not reliable across all browsers and now deprecated. That in mind, my lesson in `moment` came flooding back to me. I required moment and tested to make sure the database would successfully accept its value 
 
-I then added some basic Bootstrap styles to the layout and  created the track route and its associated views.
+Because the `mood` table takes a date field, I looked into generating dates via moment moment and tested to make sure the database would successfully accept its value. Moment ended up being unnecessary once I set up the tracking form, but it was very useful for testing. 
 
-Next I imported Chartjs in order to test the API and familiarize myself with it. 
+I then added some basic Bootstrap styles to the layout to make it easier to build the app with the finished product's aesthetic in mind.  
+
+Next I created the `track` route along with the mood tracker form view. I initially used checkboxes for charting the mood values, which were ultimately changed to dropdowns to prevent database errors from multiple values for the same mood attribute. I used the html `<input type="date">` to allow the user to select which day to chart for. I did some testing to insure that this information would reliable translate to the database, which it did! 
+
+Next I imported Chartjs in order to test the API and familiarize myself with it. Here I ran into a big opportunity for learning. As someone familiar with Chartjs can tell you, Chartjs uses the DOM `document` property to access an HTML `canvas` element and generate the charts.
+```js
+var ctx = document.getElementById(elemId).getContext('2d')
+```
+But when I wrote this server-side in Nodejs, it was unsuccessful, logging that `document` was undefined. Because Node is server side logic, it has no access to the browser's document property. 
