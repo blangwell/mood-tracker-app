@@ -25,9 +25,7 @@ Once I had a idea of what the app's pages and database would look like, I made a
 I started off by adding in authorization boilerplate that I had written for just such an occasion. In this instance, the authorization is handled with bcrypt, oAuth, express-session, and passport.
 
 Then I initialized Sequelize and created the mood_tracker development, test, and production databases. I first created the `user` and `mood` models. User stores the user's name and authentication information, while Mood stores mood tracker entry data. Then I joined them with a n:m association through `usersMoods`
-```js
 
-```
 At this point I created `dbTest.js` and ran a few tests to see if the database was set up properly. It took some time to get my associations configured successfully. A bit of digging in the Sequelize docs and a little help from my colleagues uncovered an issue. I had forgotten the `through` value in the association!
 
 ```js
@@ -125,4 +123,24 @@ if (filteredMoods.length > 0) {
     res.redirect('/track')  
   })
 ```
- I initially wanted to use `moment` to generate the last seven days and then sync the corresponding chart data with each separately generated `moment` date. After running into several issues with this and working at it with my instructors for the better part of two days, I instead decided to include only the dates where user has charted moods on the x axes of the graphs. 
+ I initially wanted to use `moment` to generate the last seven days and then sync the corresponding chart data with each separately generated `moment` date. After running into several issues with this and working at it with my instructors for the better part of two days, I instead decided to include only the dates where user has charted moods on the x axes of the graphs. To obtain the week view, I sorted the `moodObjectArray` by date and sliced the first seven items.
+ ```js
+ const compare = (a,b) => {
+  let comparison = 0;
+  if (a.date < b.date) {
+      comparison = 1
+  } else if (a.date > b.date) {
+      comparison= -1;
+  }
+  return comparison
+}
+
+moodObjectArray.sort(compare)
+moodObjectArray = moodObjectArray.slice(0, 7)
+```
+I then refactored the charting form with dropdown menus to prevent duplicate attribute entries (and to prevent database errors, an array is not an integer after all!) 
+
+Finally it was time to clean up the code and add to the page styles. 
+
+## Conclusion
+Here it is. My first full-stack application, a real milestone in my software engineering career. I hope you find some use for it!
