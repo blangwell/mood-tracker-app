@@ -13,7 +13,6 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
-    "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
     "canvas": "^2.6.1",
     "chartjs": "^0.3.24",
@@ -23,7 +22,6 @@
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.17.1",
-    "flatpickr": "^4.6.6",
     "fs": "0.0.1-security",
     "method-override": "^3.0.0",
     "moment": "^2.27.0",
@@ -33,6 +31,5 @@
     "pg": "^7.11.0",
     "sequelize": "^5.8.12",
     "sequelize-cli": "^6.2.0",
-    "serve-favicon": "^2.5.0"
   }
 }

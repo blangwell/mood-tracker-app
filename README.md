@@ -1,5 +1,10 @@
 # Mood tracker app
 
+## Introduction
+Track Dat is a simple mood tracking application that allows the user to view charts of their moods for the week.
+Track Dat is currently live on Heroku [here](https://track-dat-mood-tracker.herokuapp.com/)!
+
+
 ## Technology
 - Node.js
 - Express

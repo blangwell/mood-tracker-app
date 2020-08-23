@@ -17,6 +17,7 @@ button, .submit {
   margin: 5px;
 }
 
+
 .navbar-brand {
   font-family: 'Roboto Slab', serif;
 }
@@ -51,12 +52,10 @@ button, .submit {
   display: flex;
   justify-content: center;
 }
-
 .edit-info {
   font-size: 12px;
   padding: 5px;
 }
-
 .custom-select {
   max-width: 400px;
 }
@@ -82,7 +81,6 @@ button, .submit {
 #crisis-hotlines {
   text-align: center;
 }
-
 
 
 @media (min-width:1025px) {
