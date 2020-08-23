@@ -44,6 +44,7 @@ I then added some basic Bootstrap styles to the layout to make it easier to buil
 
 Next I created the `track` route along with the mood tracker form view. I initially used checkboxes for charting the mood values, which were ultimately changed to dropdowns to prevent database errors from multiple values for the same mood attribute. I used the html `<input type="date">` to allow the user to select which day to chart for. I did some testing to insure that this information would reliable translate to the database, which it did! 
 
+### On Setbacks
 Next I imported Chartjs in order to test the API and familiarize myself with it. Here I ran into a big opportunity for learning. As someone familiar with Chartjs can tell you, Chartjs uses the DOM `document` property to access an HTML `canvas` element and generate the charts.
 ```js
 var ctx = document.getElementById(elemId).getContext('2d')
@@ -51,3 +52,77 @@ var ctx = document.getElementById(elemId).getContext('2d')
 But when I wrote this server-side in Nodejs, it was unsuccessful, logging that `document` was undefined. Because Node is server side logic, it has no access to the browser's document property. Instead of researching the error further (and learning how to simply access DOM elements from an ejs view) I panicked and flung myself into finding another API. 
 
 This led me to Plotly. Plotly is a decent charting API, but for non-paying users, they have a call limit of 100 per day. I did not know this when I was getting started. I implemented plotly and generated beautiful sample charts. All was going well with the project. Then I hit the call limit. I knew that this would not be sustainable for a deployed web app, so I ended up back at Chartjs. _How could I perform DOM manipulation on the server side?_ With a little research, the solution was simple: use a `<script>` tags at the bottom of the EJS file and place the client-side Javascript there. This was an excellent learning opportunity. One shouldn't always panic and jump ship at the first sign of adversity. Furthermore, this situation highlighted the value of free and open source software. (Here, I'd like to take a moment to send a sincere thank you to the folks responsible for building and maintaining Chartjs.)
+
+### Micro-sprint Two
+The first order of business was to implement the Charjs API and to configure it to successfully chart information from the database. Here I learned a fun thing: passing variables from server-side logic into EJS templates and _then_ into client side javascript.
+```js
+// SERVER SIDE JS
+// pass variables as an object while calling res.render()
+res.render('track/index', {dates: dateArray, 
+moods: moodObjectArray})
+```
+```js
+// EJS
+// access and manipulate variables in EJS
+<% const getData = (metric, array) => {%>
+    <% moods.forEach(m => { %>
+        <% array.push(m[metric]) %>
+    <% }) %>
+<% } %>
+...
+<% getData('sleep', sleepArray) %>
+```
+```js
+// CLIENT SIDE JS
+// stringify EJS array value, use Regex to remove unwanted characters
+// then split back into an array
+let clientSleep = '<%- JSON.stringify(sleepArray) %>';
+clientSleep = clientSleep.replace(/[\[\]"]+/g, '').split(',');
+```
+This took a while to get working, but once the server-side variables were being successfully passed into the client-side Javascript and the API was working, I was off and running. I decided to use a simple line graph and created a helper function to generate a chart for each mood metric.
+```js
+const buildChart = (elemId, data, label, borderRbg) => {
+    var ctx = document.getElementById(elemId).getContext('2d')
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: clientDates,
+            datasets: [{
+                label: label,
+                borderColor: borderRbg,
+                data: data,
+                spanGaps: true
+            }]
+            ...
+        }
+    }
+...
+```
+### Micro-sprint Three
+An important aspect of this user experience for this project was the ability to not create duplicate charts on the same days if the user wanted to update a day's chart. This involved a lot of digging in the Sequelize documentation and many trips over to StackOverflow. I was able to set up a conditional using the `update()` method and the Sequelize mixin `createMood()` to accomplish this.
+```js
+let filteredMoods = user.moods.filter(m => {
+  return m.date == req.body.date
+})
+
+if (filteredMoods.length > 0) {
+  filteredMoods[0].update(newMood)
+  .then(updated => {
+      res.redirect('/track')
+  })
+  .catch(err => {console.log(err)})
+
+} else {
+  user.createMood({ 
+    date: req.body.date,
+    elevated: req.body.elevated,
+    depressed: req.body.depressed,
+    irritable: req.body.irritable,
+    anxious: req.body.anxious,
+    sleep: req.body.sleep
+  })
+.then(relationInfo => {
+    res.redirect('/track')  
+  })
+```
+ I initially wanted to use `moment` to generate the last seven days and then sync the corresponding chart data with each separately generated `moment` date. After running into several issues with this and working at it with my instructors for the better part of two days, I instead decided to include only the dates where user has charted moods on the x axes of the graphs. 
