@@ -8,52 +8,16 @@ router.get('/', (req, res) => {
     let dateArray = [];
     let moodObjectArray = [];
 
-    // get last seven days
-    // for (let i = 0; i<=7; i++) {
-    //     let day = moment().subtract(i, 'day').format('YYYY-MM-DD')
-    //     dateArray.push(day)
-    // }
         db.user.findOne({
             where: {id: req.user.id},
             include: [db.mood]
         })
         .then(user => {
             user.moods.forEach(m => {
+            if (dateArray.length <= 7)    
                 dateArray.push(m.date)
                 moodObjectArray.push(m)
             })
-
-            // let userMoods = [...user.moods]
-            
-            // const compare = (a,b) => {
-            //     let comparison = 0;
-            //     if (a.date < b.date) {
-            //         comparison = 1
-            //     } else if (a.date > b.date) {
-            //         comparison= -1;
-            //     }
-            //     return comparison
-            // }
-
-            // userMoods.sort(compare)
-            // // foundMoods = {}
-            // // loop thru foundMoods and dateArray
-            // console.log(userMoods)
-            // let moodMap = dateArray.map((d, i) => {
-            //     if (userMoods[i].date == d) {
-            //         return userMoods[i]
-            //     }
-            //     // let filteredMoods = user.moods.filter(m => {
-            //     //     return m.date == d
-            //     // })
-            //     // if (filteredMoods) moodObjectArray.splice(i, 0, filteredMoods[0])
-            //     // else moodObjectArray.splice(i, 0, null)
-            // })
-
-            // moodQueue.forEach(m => {console.log(m.date)})
-        
-
-            // sort moodObjectArray by date
             const compare = (a,b) => {
                 let comparison = 0;
                 if (a.date < b.date) {
@@ -73,8 +37,6 @@ router.get('/', (req, res) => {
                 return comparison
             }
 
-            
-
             moodObjectArray.sort(compare)
             dateArray.sort(compareDates)
             console.log(' MOOD OBJECT ARRAY : ', moodObjectArray)
@@ -88,12 +50,6 @@ router.get('/', (req, res) => {
 router.get('/new', (req, res) => {
     
     res.render('track/new', {today})
-})
-
-
-router.get('/show', (req, res) => {
-    // console.log(req.body);
-    res.render('track/show')
 })
 
 

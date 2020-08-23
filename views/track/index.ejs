@@ -24,7 +24,7 @@
 
 
 <main>              
-    <h1 class="page-title">Your Week at a Glance</h1>
+    <h1 class="page-title">Your Week at a Glance</h1><br />
     <canvas class="chart-view" id="elevated-chart"></canvas><br />
     <canvas class="chart-view" id="depressed-chart"></canvas><br />
     <canvas class="chart-view" id="irritable-chart"></canvas><br />
@@ -50,7 +50,7 @@
     clientSleep = clientSleep.replace(/[\[\]"]+/g, '').split(',');
 
 
-    const buildChart = (elemId, data, label, backgroundRbg, borderRbg) => {
+    const buildChart = (elemId, data, label, borderRbg) => {
         var ctx = document.getElementById(elemId).getContext('2d')
         var chart = new Chart(ctx, {
             type: 'line',
@@ -58,7 +58,6 @@
                 labels: clientDates,
                 datasets: [{
                     label: label,
-                    backgroundColor: backgroundRbg,
                     borderColor: borderRbg,
                     data: data,
                     spanGaps: true
@@ -67,6 +66,10 @@
             options: {
                 scales: {
                     yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Severity'
+                        },
                         ticks: {
                             max: 3,
                             min: 0,
@@ -77,7 +80,7 @@
         })
     }
 
-    const buildSleepChart = (elemId, data, label, backgroundRbg, borderRbg) => {
+    const buildSleepChart = (elemId, data, label, borderRbg) => {
         var ctx = document.getElementById(elemId).getContext('2d')
         var chart = new Chart(ctx, {
             type: 'line',
@@ -85,7 +88,6 @@
                 labels: clientDates,
                 datasets: [{
                     label: label,
-                    backgroundColor: backgroundRbg,
                     borderColor: borderRbg,
                     data: data
                 }]
@@ -93,6 +95,10 @@
             options: {
                 scales: {
                     yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Hours'
+                        },
                         ticks: {
                             max: 12,
                             min: 0,
@@ -103,10 +109,10 @@
         })
     }
     
-    buildChart('elevated-chart', clientElevated, 'Elevated Mood', 'rgb(4, 200, 214)', 'rgb(4, 95, 214)' )
-    buildChart('depressed-chart', clientDepressed, 'Depression', 'rgb(4, 200, 214)', 'rgb(4, 95, 214)' )
-    buildChart('irritable-chart', clientIrritable, 'Irritability', 'rgb(4, 200, 214)', 'rgb(4, 95, 214)' )
-    buildChart('anxious-chart', clientAnxious, 'Anxiety', 'rgb(4, 200, 214)', 'rgb(4, 95, 214)' )
-    buildSleepChart('sleep-chart', clientSleep, 'Sleep', 'rgb(4, 200, 214)', 'rgb(4, 95, 214)' )
+    buildChart('elevated-chart', clientElevated, 'Elevated Mood', 'rgb(218,0,91)' )
+    buildChart('depressed-chart', clientDepressed, 'Depression', 'rgb(51, 78, 125)' )
+    buildChart('irritable-chart', clientIrritable, 'Irritability', 'rgb(234,4,12)')
+    buildChart('anxious-chart', clientAnxious, 'Anxiety', 'rgb(103, 72, 146)' )
+    buildSleepChart('sleep-chart', clientSleep, 'Sleep', 'rgb(47, 72, 88)' )
     
 </script>
