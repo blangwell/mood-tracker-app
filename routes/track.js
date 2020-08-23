@@ -43,8 +43,7 @@ router.get('/', (req, res) => {
             console.log(' MOOD OBJECT ARRAY : ', moodObjectArray)
             console.log(' DATE ARRAY : ', dateArray)
             res.render('track/index', {dates: dateArray, moods: moodObjectArray})
-            // dateArray = [];
-            // moodObjectArray = [];
+  
         })
         .catch(err => {console.log(err)})
 })

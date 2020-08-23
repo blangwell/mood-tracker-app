@@ -75,6 +75,9 @@ small {
   padding: 5px;
 }
 
+.custom-select {
+  max-width: 400px;
+}
 
 
 
