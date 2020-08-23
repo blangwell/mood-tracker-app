@@ -14,7 +14,6 @@ router.get('/', (req, res) => {
         })
         .then(user => {
             user.moods.forEach(m => {
-            if (dateArray.length <= 7)    
                 dateArray.push(m.date)
                 moodObjectArray.push(m)
             })
@@ -39,9 +38,13 @@ router.get('/', (req, res) => {
 
             moodObjectArray.sort(compare)
             dateArray.sort(compareDates)
+            moodObjectArray = moodObjectArray.slice(0, 7)
+            dateArray = dateArray.slice(0, 7)
             console.log(' MOOD OBJECT ARRAY : ', moodObjectArray)
             console.log(' DATE ARRAY : ', dateArray)
             res.render('track/index', {dates: dateArray, moods: moodObjectArray})
+            // dateArray = [];
+            // moodObjectArray = [];
         })
         .catch(err => {console.log(err)})
 })
