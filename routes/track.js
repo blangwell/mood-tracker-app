@@ -2,9 +2,11 @@ const express = require('express');
 const db = require('../models');
 const router = express.Router();
 const moment = require('moment');
-let today = moment().format('YYYY-MM-DD')
+let today = moment().format('YYYY-MM-DD');
+const isLoggedIn = require('../middleware/isLoggedIn')
 
-router.get('/', (req, res) => {
+
+router.get('/', isLoggedIn, (req, res) => {
     let dateArray = [];
     let moodObjectArray = [];
 
@@ -49,7 +51,7 @@ router.get('/', (req, res) => {
 })
 
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     
     res.render('track/new', {today})
 })
