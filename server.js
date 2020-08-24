@@ -62,7 +62,7 @@ app.get('/profile', isLoggedIn, (req, res) => {
 });
 
 app.get('*', function(req, res){
-  res.render(path.join('404'));
+  res.render('404');
 });
 
 
