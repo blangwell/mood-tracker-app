@@ -61,9 +61,9 @@ app.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile', {user: req.user});
 });
 
-app.get('*', function(req, res){
-  res.render('404');
-});
+// app.get('*', function(req, res){
+//   res.render('404');
+// });
 
 
 app.use('/auth', require('./routes/auth'));
