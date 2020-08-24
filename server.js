@@ -8,6 +8,7 @@ const passport = require('./config/ppConfig');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
 const db = require('./models')
+const path = require('path')
 
 
 // require the authorization middleware (goes at top of script)
@@ -58,6 +59,10 @@ app.get('/', (req, res) => {
 
 app.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile', {user: req.user});
+});
+
+app.get('*', function(req, res){
+  res.render(path.join('404'));
 });
 
 
