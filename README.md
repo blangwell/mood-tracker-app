@@ -25,7 +25,7 @@ Once I had a idea of what the app's pages and database would look like, I made a
 
 [Kanban Board](https://trello.com/b/noPdaTUX/mood-tracker-app)
 
-### Getting to Work
+### Micro-sprint One
 
 I started off by adding in authorization boilerplate that I had written for just such an occasion. In this instance, the authorization is handled with bcrypt, oAuth, express-session, and passport.
 
@@ -41,23 +41,23 @@ module.exports = (sequelize, DataTypes) => {
         {through: 'usersMoods', onDelete: 'CASCADE'})
 ```
 
-Because the `mood` table takes a date field, I looked into generating dates via moment moment and tested to make sure the database would successfully accept its value. Moment ended up being unnecessary once I set up the tracking form, but it was very useful for testing. 
+Because the `mood` table takes a date field, I looked into generating dates via moment and tested to make sure the database would successfully accept the value. Moment ended up being unnecessary once I set up the tracking form, but it was very useful for testing. 
 
 I then added some basic Bootstrap styles to the layout to make it easier to build the app with the finished product's aesthetic in mind.  
 
-Next I created the `track` route along with the mood tracker form view. I initially used checkboxes for charting the mood values, which were ultimately changed to dropdowns to prevent database errors from multiple values for the same mood attribute. I used the html `<input type="date">` to allow the user to select which day to chart for. I did some testing to insure that this information would reliable translate to the database, which it did! 
+Next I created the `track` route along with the mood tracker form view. I initially used checkboxes for charting the mood values, which were ultimately changed to dropdowns to prevent database errors from multiple values for the same mood attribute. I used the html `<input type="date">` to allow the user to select which day to chart for. I did some testing to insure that this information would reliably translate to the database, which it did! 
 
 ### On Setbacks
-Next I imported Chartjs in order to test the API and familiarize myself with it. Here I ran into a big opportunity for learning. As someone familiar with Chartjs can tell you, Chartjs uses the DOM `document` property to access an HTML `canvas` element and generate the charts.
+Next I imported Chartjs in order to test the API and familiarize myself with it. Here I ran into a big opportunity for learning. As someone familiar with Chartjs can tell you, Chartjs uses the DOM `document` property to access an HTML `canvas` element and generate charts:
 ```js
 var ctx = document.getElementById(elemId).getContext('2d')
 ```
 But when I wrote this server-side in Nodejs, it was unsuccessful, logging that `document` was undefined. Because Node is server side logic, it has no access to the browser's document property. Instead of researching the error further (and learning how to simply access DOM elements from an ejs view) I panicked and flung myself into finding another API. 
 
-This led me to Plotly. Plotly is a decent charting API, but for non-paying users, they have a call limit of 100 per day. I did not know this when I was getting started. I implemented plotly and generated beautiful sample charts. All was going well with the project. Then I hit the call limit. I knew that this would not be sustainable for a deployed web app, so I ended up back at Chartjs. _How could I perform DOM manipulation on the server side?_ With a little research, the solution was simple: use a `<script>` tags at the bottom of the EJS file and place the client-side Javascript there. This was an excellent learning opportunity. One shouldn't always panic and jump ship at the first sign of adversity. Furthermore, this situation highlighted the value of free and open source software. (Here, I'd like to take a moment to send a sincere thank you to the folks responsible for building and maintaining Chartjs.)
+This led me to Plotly. Plotly is a decent charting API, but for non-paying users, they have a call limit of 100 per day. I did not know this when I was getting started. I implemented plotly and generated beautiful sample charts. All was going well with the project. Then I hit the call limit. I knew that this would not be sustainable for a deployed web app, so I ended up back at Chartjs. _How could I perform DOM manipulation on the server side?_ With a little research, the solution was simple: use a `<script>` tags at the bottom of the EJS file and place the client-side Javascript there. This was an excellent learning opportunity. One shouldn't always panic and jump ship at the first sign of adversity. Furthermore, this situation served to highlight the value of free and open source software. (Here, I'd like to take a moment to send a sincere thank you to the folks responsible for building and maintaining Chartjs.)
 
 ### Micro-sprint Two
-The first order of business was to implement the Charjs API and to configure it to successfully chart information from the database. Here I learned a fun thing: passing variables from server-side logic into EJS templates and _then_ into client side javascript.
+Now that I had a working chart API (the crux of this project,) the first order of business was to configure the Chartjs API to successfully chart information from the database. Here I learned a fun thing: passing variables from server-side logic into EJS templates and _then_ into client side javascript.
 ```js
 // SERVER SIDE JS
 // pass variables as an object while calling res.render()
@@ -102,7 +102,7 @@ const buildChart = (elemId, data, label, borderRbg) => {
 ...
 ```
 ### Micro-sprint Three
-An important aspect of this user experience for this project was the ability to not create duplicate charts on the same days if the user wanted to update a day's chart. This involved a lot of digging in the Sequelize documentation and many trips over to StackOverflow. I was able to set up a conditional using the `update()` method and the Sequelize mixin `createMood()` to accomplish this.
+An important aspect of this user experience for this project was the ability to update a day's chart without creating a duplicate. As simple as this sounds, this involved a lot of digging in the Sequelize documentation and many trips over to StackOverflow. Ultimately, I was able to set up a conditional using the `update()` method and the Sequelize mixin `createMood()` to accomplish this.
 ```js
 let filteredMoods = user.moods.filter(m => {
   return m.date == req.body.date
@@ -128,7 +128,7 @@ if (filteredMoods.length > 0) {
     res.redirect('/track')  
   })
 ```
- I initially wanted to use `moment` to generate the last seven days and then sync the corresponding chart data with each separately generated `moment` date. After running into several issues with this and working at it with my instructors for the better part of two days, I instead decided to include only the dates where user has charted moods on the x axes of the graphs. To obtain the week view, I sorted the `moodObjectArray` by date and sliced the first seven items.
+ I initially wanted to use `moment` to generate the last seven days and then sync the corresponding chart data with each separately generated `moment` date. After running into several issues with this and working at it with my instructors and colleagues for the better part of two days, I instead decided to include only the dates where user has charted moods on the x axes of the graphs. To obtain the week view, I sorted the `moodObjectArray` by date and sliced the first seven items.
  ```js
  const compare = (a,b) => {
   let comparison = 0;
@@ -143,9 +143,9 @@ if (filteredMoods.length > 0) {
 moodObjectArray.sort(compare)
 moodObjectArray = moodObjectArray.slice(0, 7)
 ```
-I then refactored the charting form with dropdown menus to prevent duplicate attribute entries (and to prevent database errors, an array is not an integer after all!) 
+I then refactored the charting form with dropdown menus to prevent multiple entries for the same attribute (and to prevent database errors, an array is not an integer after all!) 
 
 Finally it was time to clean up the code and add to the page styles. 
 
 ## Conclusion
-Here it is. My first full-stack application, a real milestone in my software engineering career. I hope you find some use for it!
+Here it is. My first full-stack application, a real milestone in my software engineering career. I look forward to continue scaling it and refining it into a truly valuable tool. I hope you find some use for it!
